@@ -1,0 +1,114 @@
+body{
+    position:relative;
+	background-color:white;
+
+}
+
+.logo{
+	position:relative;
+	 size:relative;
+	left:0%;
+	right:0%;
+	top:0%;
+	height:15%;
+	background-color:blue;
+	
+}
+
+.logopanel{
+	left:35%;
+	position:relative;
+	 size:relative;
+	top:0%;
+	
+	width:25%;
+	
+}
+
+.tim{
+	position:relative;
+    size:relative;
+	height:50%;
+	top:7%;
+	background-image:url("img/logo cropped.png");
+	background-size:80% 100%;
+	background-repeat:no-repeat;
+}
+
+.slogan{
+	position:relative;
+	 size:relative;
+	height:25%;
+	top:7%;
+	background-image:url("img/slogan.png");
+	background-size:80% 100%;
+	background-repeat:no-repeat;
+}
+.landmark{
+	position:relative;
+	 size:relative;
+	top:20%;
+	height:7%;
+	width:19.80%;
+	border-color:blue;
+	background-color:#CCCCFF;
+	border-width:1px;
+	border-style:solid;
+	display: inline-block;
+	
+}
+
+.bottommark{
+	position:relative;
+	 size:relative;
+	bottom:0%;
+	top:0%;
+	border-color:blue;
+	background-color:#CCCCFF;
+	border-width:1px;
+	border-style:solid;
+	height:5%;
+	width:100%;
+}
+
+.leftbox{
+	position:relative;
+	
+	height:60%;
+	left:5%;
+	top:10%;
+	width:20%;
+	border-color:blue;
+	background-color:#CCCCFF;
+	border-width:2px;
+	border-style:solid;
+    
+
+}
+
+.structbox{
+	position:relative;
+	
+	height:35%;
+	left:10%;
+	top:15%;
+	width:80%;
+	border-color:blue;
+	background-color:#0080FF;
+	border-width:2px;
+	border-style:solid;
+}
+
+.contentbox{
+	position:relative;
+	
+	height:60%;
+	left:35%;
+	top:-50%;
+	width:60%;
+	border-color:blue;
+	background-color:white;
+	border-width:2px;
+	border-style:solid;
+	
+}
