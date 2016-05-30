@@ -1,6 +1,8 @@
 body{
     position:relative;
 	background-color:white;
+	margin:0;
+	padding:0;
 
 }
 
@@ -10,13 +12,13 @@ body{
 	left:0%;
 	right:0%;
 	top:0%;
-	height:15%;
+	height:18%;
 	background-color:blue;
 	
 }
 
 .logopanel{
-	left:35%;
+	left:40%;
 	position:relative;
 	 size:relative;
 	top:0%;
@@ -47,17 +49,47 @@ body{
 .landmark{
 	position:relative;
 	 size:relative;
-	top:20%;
-	height:7%;
+	
+	height:10%;
 	width:19.80%;
 	border-color:blue;
 	background-color:#CCCCFF;
 	border-width:1px;
 	border-style:solid;
 	display: inline-block;
+	text-align:center;
 	
 }
-
+.landmark p{
+	margin:auto;
+	padding: 10% 5%;
+}
+#device{
+	background-image:url("img/device.png");
+	background-size:35% 90%;
+	background-repeat:no-repeat;
+}
+#smartlife{
+	background-image:url("img/SL.png");
+	background-size:38% 90%;
+	background-repeat:no-repeat;
+}
+#assistance{
+	background-image:url("img/assistenza.png");
+	background-size:30% 90%;
+	background-repeat:no-repeat;
+}
+#promo{
+	background-image:url("img/outlet.png");
+	background-size:30% 90%;
+	background-repeat:no-repeat;
+}
+#news{
+	background-image:url("img/exclamation-mark-310101_1280 2.png");
+	background-size:23% 95%;
+	background-repeat:no-repeat;
+	
+}
 .bottommark{
 	position:relative;
 	 size:relative;
@@ -71,44 +103,104 @@ body{
 	width:100%;
 }
 
+.info{
+	position:relative;
+	width:5%;
+	height:100%;
+	background-image:url("img/info.png");
+	background-size:70% 75%;
+	background-position:center;
+	background-repeat:no-repeat;
+	display:inline-block;
+}
+.whoweare{
+	position:relative;
+	width: 88%;
+	height:100%;
+    top:-40%;
+	display:inline-block;
+	text-decoration: underline;
+	margin-bottom: -2%;
+}
+.bottomlogo{
+	position:relative;
+	width:5%;
+	margin-right:0%;
+	height:100%;
+	background-image:url("img/red logo.png");
+	background-size:75% 85%;
+	background-repeat:no-repeat;
+	background-position:center;
+	display:inline-block;
+	
+}
 .leftbox{
 	position:relative;
 	
 	height:60%;
 	left:5%;
-	top:10%;
+	
 	width:20%;
 	border-color:blue;
 	background-color:#CCCCFF;
 	border-width:2px;
 	border-style:solid;
+	display:inline-block;
     
 
 }
 
 .structbox{
 	position:relative;
-	
-	height:35%;
+	text-decoration: underline;
+	height:25%;
 	left:10%;
-	top:15%;
+	top:10%;
 	width:80%;
 	border-color:blue;
 	background-color:#0080FF;
 	border-width:2px;
 	border-style:solid;
+	text-align:center;
+	
 }
-
+.relationbox{
+	position:relative;
+	
+	height:35%;
+	left:10%;
+	top:15%;
+	width:80%;
+	
+	text-align:center;
+}
 .contentbox{
 	position:relative;
 	
 	height:60%;
-	left:35%;
+	left:30%;
 	top:-50%;
+	
 	width:60%;
 	border-color:blue;
 	background-color:white;
 	border-width:2px;
 	border-style:solid;
+	margin-bottom: -20%;
+	
+	
+}
+
+.orientationbox{
+	position:relative;
+	height: 7%;
+	width: 50%;
+	left:35%;
+	top:5%;
+	border-color:blue;
+
+	border-width:2px;
+	border-style:solid;
+	text-align:center;
 	
 }
