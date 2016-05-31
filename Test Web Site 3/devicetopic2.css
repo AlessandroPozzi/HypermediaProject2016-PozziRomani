@@ -71,6 +71,10 @@ body{
 
 /* Customize bootstrap's navbar */
 
+.navbar .navbar-nav {
+  display: inline-block;
+}
+
 .container-fluid{
     background-color: #CCCCFF;
 }
@@ -89,6 +93,20 @@ body{
     size:relative;
     
     
+}
+
+@media (min-width: 768px) {
+  .navbar-nav {
+    width: 100%;
+    text-align: center;
+  }
+  .navbar-nav > li {
+    float: none;
+    display: inline-block;
+  }
+  .navbar-nav > li.navbar-right {
+    float: right !important;
+  }
 }
 
 .nav-justified{
@@ -217,7 +235,7 @@ body{
 .toRight{
 position: relative;
 left: 1%;
-    
+float: right 
 }
 
 .nav-inline{
