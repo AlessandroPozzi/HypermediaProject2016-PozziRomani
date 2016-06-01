@@ -1,8 +1,63 @@
-body{
-	background-color:white;
-}
 
 .panel-primary{
 	background-color:#F1F1F1;
 }
+.container{
+	float:center;
+	text-align:center;
+}
+body{
+    position:relative;
+	background-color:white;
+	margin:0;
+	padding:0;
 
+}
+
+.logo{
+	position:relative;
+	 size:relative;
+	left:0%;
+	right:0%;
+	top:0%;
+	height:15%;
+	background-color:blue;
+	
+}
+
+.logopanel{
+	position:relative;
+	 size:relative;
+	top:6%;
+	width:100%;
+	
+}
+
+.tim{
+	position:relative;
+    size:relative;
+	height:60%;
+    width: 100%;
+    margin-bottom: 0.5%;
+    
+}
+
+.tim img{
+  max-width:320px; 
+  
+  margin:auto;
+  display:block;
+}
+
+.slogan{
+	position:relative;
+    size:relative;
+	height:25%;
+    bottom:25%;
+    font-family: "Verdana", Times, serif;
+    font-size: 15px;
+    text-align:center;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0.5%;
+}
