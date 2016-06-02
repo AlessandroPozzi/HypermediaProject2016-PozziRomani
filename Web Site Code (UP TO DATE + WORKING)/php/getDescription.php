@@ -13,7 +13,7 @@ function getDescription($pt){
         exit();
     }
     else{
-        echo "successufl connection";
+        //echo "successufl connection";
             
             $query = "SELECT * FROM sl";
 
@@ -24,12 +24,17 @@ function getDescription($pt){
                 $myArray = array();
                 while($row = $result->fetch_array(MYSQL_ASSOC)){
                     $myArray[] = $row;
-                    echo $row[name];
+                    //echo $row[name];
                 }
-                echo "OK";
-                echo $myArray;
-	  			//echo json_encode($myArray);
+                //echo "OK";
+                //echo $myArray;
+	  			echo json_encode($myArray);
             }
+            //free result
+            $result->close();
+
+            //close connection
+            $mysqli->close();
     }
     
 
