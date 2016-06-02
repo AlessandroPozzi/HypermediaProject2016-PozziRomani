@@ -34,24 +34,14 @@ function loadMoreClicked(){
     $.ajax({
         method: "POST",
         //dataType: "json", //type of data
-        //crossDomain: true, //localhost purposes
         url: "http://timhypermediaproject2016.altervista.org/php/getDescription.php", 
         success: function(response) {
 			
         	console.log("Ajax call: success!");
             console.log(JSON.parse(response));
-            //var parsed_data = JSON.parse(response); DOESN'T WORK!??!?!
-            
-            //var html="<table border=1 style='border-collapse:collapse'>";
-            //response.forEach(function(obj,index){html+="<tr><td>"+index+"<td>"+obj.row1+"</td><td>"+obj.row2+"</td><td>"+obj.row3+"</td></tr>";});
-			//	html+="</table>";
 
-			//jQuery(html).appendTo("#result");
             
-            //console.log(JSON.parse(response));
-            //console.log("Response: " +  response);
-            
-            $("#result").html(" "+response); // WORKS
+            $("#result").html(" "+response);
         },
         error: function(request,error) 
         {

@@ -15,7 +15,7 @@ function getDescription($pt){
     else{
         //echo "successufl connection";
             
-            $query = "SELECT * FROM sl";
+            $query = "SELECT * FROM device";
 
             $result = $mysqli->query($query);
 
