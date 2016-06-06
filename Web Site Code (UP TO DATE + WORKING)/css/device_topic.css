@@ -242,6 +242,8 @@ body{
 .toRight{
 position: relative;
 left: 1%;
+padding: 1%;
+    right:0%;
 float: right 
 }
 
@@ -251,4 +253,54 @@ float: right
 
 .col-sm-9{
 	background-color:white;
+}
+
+.panel{
+    border-color: #e3e3e3;
+    border-width: 3px;
+    background-color: white;
+    border-radius: 4px;
+    
+}
+
+.panel-primary{
+    
+}
+
+.col-sm-6{
+    
+}
+
+.img-responsive{
+    padding: 9%;
+}
+
+.well{
+    size: relative;
+    position: relative;
+    
+}
+
+.glyphicon{
+    background-size: 5%;
+}
+
+.glyphicon-chevron-left{
+    background-size: 15%;
+}
+
+.toLeft{
+    size:relative;
+left:0%;
+    padding: 1%;
+        font-size: 24px;
+    
+}
+
+.arrows{
+    width: 50%;
+}
+
+.row{
+    
 }
