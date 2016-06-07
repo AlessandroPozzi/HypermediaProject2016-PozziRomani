@@ -255,13 +255,7 @@ float: right
 	background-color:white;
 }
 
-.panel{
-    border-color: #e3e3e3;
-    border-width: 3px;
-    background-color: white;
-    border-radius: 4px;
-    
-}
+
 
 .panel-primary{
     
@@ -327,4 +321,29 @@ left:0%;
 .text_content{
     margin-left: 3%;
     word-wrap: break-word
+}
+
+.panel-footer{
+    text-align: center;
+}
+
+.img-responsive{
+    position: relative;
+    text-align: center;
+    
+    
+}
+
+.panel-primary{
+    text-align: center;
+}
+
+.panel{
+     text-align: center;
+}
+.row{
+    border-color: #e3e3e3;
+    border-width: 3px;
+    background-color: white;
+    border-radius: 4px;
 }
