@@ -1,5 +1,11 @@
 $(document).ready(documentReady);
 
+var img = new Array();
+
+var currentImage = null;
+
+var lenght = null;
+
 function documentReady(){
     console.log("I'm ready");
 	
@@ -8,6 +14,12 @@ function documentReady(){
     $("#section2").on("click",loadSpecification);
     
     $("#section3").on("click",loadPromo);
+    
+    $("#previous_image").on("click", previous_image);
+    
+    $("#next_image").on("click", next_image);
+    
+    preloadImage();
 
 }
 
@@ -197,4 +209,108 @@ function loadPromo(){
     });
     
 	return false; //to avoid the scrolling down of the page
+}
+
+function preloadImage(){
+    
+    var device_name = $('#device_name').html();
+    currentImage = $("#img_panel").attr("src");
+    console.log("asdasdasd: "+$("#img_panel").attr("src"));
+    
+    $.ajax({
+        method: "POST",
+        url: "http://timhypermediaproject2016.altervista.org/php/getImages.php",
+        data: {name:device_name},
+        success: function(response) {
+			
+        	console.log("Ajax call: success!");  
+            console.log(JSON.parse(response)); 
+            var response_parsed = JSON.parse(response);
+            
+            lenght = 0;
+            for (var elem in response_parsed){
+                lenght ++;
+            }
+            
+            console.log("Json array lenght: " + lenght);
+            
+            if (lenght <= 1){
+                console.log("No other images: preload not necessary " + lenght);
+                //disable the arrows
+            }else{
+                
+                for (var elem in response_parsed){
+                   img[elem] = "../img/" + response_parsed[elem].url;
+                }
+                console.log("Success!");
+            }
+            
+            
+        },
+        error: function(request,error) 
+        {
+            console.log("Error with the ajax call");
+        }
+        
+    });
+    
+	return false;
+}
+
+function next_image(){
+    
+    console.log("Lenght: " + lenght);
+    console.log("current image: " +  currentImage);
+    
+    
+    for(i = 0; i < lenght; i++){
+    
+        console.log("img" + i + ": " + img[i]);
+        
+        if (img[i] == currentImage){
+            
+            if(i + 1 < lenght){
+                console.log("next image: " + img[i+1]);
+                currentImage = img[i+1];
+                $("#img_panel").attr("src", img[i+1]);
+                return false;
+            }else{
+                console.log("next image: " + img[0]);
+                currentImage = img[0];
+                $("#img_panel").attr("src", img[0]);
+                return false;
+            }
+            
+        }
+        
+    }
+}
+
+function previous_image(){
+    
+    console.log("Lenght: " + lenght);
+    console.log("current image: " +  currentImage);
+    
+    
+    for(i = 0; i < lenght; i++){
+    
+        console.log("img" + i + ": " + img[i]);
+        
+        if (img[i] == currentImage){
+            
+            if(i -1 >= 0){
+                console.log("previous image: " + img[i-1]);
+                currentImage = img[i-1];
+                $("#img_panel").attr("src", img[i-1]);
+                return false;
+            }else{
+                console.log("previous image: " + img[lenght-1]);
+                currentImage = img[lenght-1];
+                $("#img_panel").attr("src", img[lenght-1]);
+                return false;
+            }
+            
+        }
+        
+    }
 }

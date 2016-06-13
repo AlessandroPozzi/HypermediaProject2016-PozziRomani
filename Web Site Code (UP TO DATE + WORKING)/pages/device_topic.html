@@ -13,7 +13,7 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <style>
  
-    .row.content {height: 1000px}
+    .row.content {height: auto}
     
    
     .sidenav {
@@ -154,13 +154,17 @@
             <div class="row">
         
         <div class="col-sm-4">
-            <div class="panel panel-primary">
-            <img class="img-responsive" src="../img/img_test.png" />
+            <div class="panel panel-primary" >
+                <img class="img-responsive" id ="img_panel" src="../img/apple-iPhone6s_Gld-2.jpg"/>
                 <div class="panel-footer">
-                    
-                <span class="glyphicon glyphicon-chevron-right next_img_right arrow_img"></span>
-                <span class="glyphicon glyphicon-chevron-left next_img_left arrow_img"></span>
-                    
+                
+                <a href="#">
+                    <span class="glyphicon glyphicon-chevron-right next_img_right arrow_img" id="next_image"></span>
+                </a>    
+                
+                <a href="#">
+                    <span class="glyphicon glyphicon-chevron-left next_img_left arrow_img"  id="previous_image"></span>
+                </a> 
                 </div>
             </div>
                 </div>

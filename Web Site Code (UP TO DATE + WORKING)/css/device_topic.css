@@ -328,3 +328,8 @@ left:0%;
     margin-left: 3%;
     word-wrap: break-word
 }
+
+#img_panel{
+    text-align: center;
+    margin:auto;
+}
