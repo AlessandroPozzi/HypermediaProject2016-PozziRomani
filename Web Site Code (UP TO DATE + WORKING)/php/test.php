@@ -18,14 +18,12 @@ function getSpecification($name){
             mysql_query("SET NAMES 'utf8_bin'");
             mysql_query("SET CHARACTER SET utf8_bin");
             mysql_query("SET COLLATION_CONNECTION = 'utf8mb4_bin'");
-        
-            $query = "SELECT p.new_price, p.payment_instalments, p.other_promo
-                      FROM promotion p
-                      INNER JOIN device_to_promo dtp
-                      on p.id_promo = dtp.id_promo
-                      INNER JOIN device d
-                      on d.id_device = dtp.id_device
-                      WHERE d.name="."'".$name."'";
+            
+            $id_device=3;
+            
+            $query = "SELECT id_device, name 
+                  FROM device
+                  WHERE id_device=".$id_device;
 			
             $result = $mysqli->query($query);
 
@@ -39,8 +37,6 @@ function getSpecification($name){
                 }
                
 	  			echo json_encode($myArray, JSON_UNESCAPED_UNICODE );
-            }else{
-                echo "{}";
             }
             //free result
             $result->close();

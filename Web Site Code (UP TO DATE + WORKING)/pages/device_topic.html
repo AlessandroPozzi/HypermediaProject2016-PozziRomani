@@ -66,31 +66,31 @@
   <div class="navbar-collapse collapse">
     <ul class="nav navbar-nav">
         
-        <li class="active">
-            <a  href="#" id="dispositivi" >
+        <li class="top_landmark">
+            <a  href="http://timhypermediaproject2016.altervista.org/php/getCategories2.php?high_cat=DISPOSITIVI" id="dispositivi" >
                <img src="../img/device2.png"/>
                <p>DISPOSITIVI</p>
             </a>
         </li>
-        <li >
-            <a  href="#" id="smart_life" >
+        <li class="top_landmark">
+            <a  href="http://timhypermediaproject2016.altervista.org/php/getCategories2.php?high_cat=SMART LIFE" id="smart_life" >
                <img src="../img/SL.png"/>
                <p>SMART LIFE</p>
             </a>
         </li>
-        <li >
-            <a  href="#" id="assistenza" >
+        <li class="top_landmark">
+            <a  href="http://timhypermediaproject2016.altervista.org/php/getCategories2.php?high_cat=ASSISTENZA" id="assistenza" >
                <img src="../img/assistenza.png"/>
                <p>ASSISTENZA</p>
             </a>
         </li>
-        <li >
-            <a  href="#" id="promozioni" >
+        <li class="top_landmark">
+            <a  href="http://timhypermediaproject2016.altervista.org/php/getCategories2.php?high_cat=PROMOZIONI" id="promozioni" >
                <img src="../img/outlet.png"/>
                <p>PROMOZIONI</p>
             </a>
         </li>
-        <li >
+        <li class="top_landmark">
             <a  href="#" id="news" >
                <img src="../img/news%20small%20landmark.png"/>
                <p>NEWS</p>
@@ -115,23 +115,23 @@
 <div class="container-fluid" id="second">
   <div class="row content">
     <div class="col-sm-3 sidenav">
-      <h4>Scheda tecnica:</h4>
-      <ul class="nav nav-pills nav-stacked">
-        <li class="active" id="sect1"><a href="#section1" id="section1">Caratteristiche</a></li>
-        <li id="sect2"><a href="#section2" id="section2">Specifiche tecniche</a></li>
-        <li id="sect3"><a href="#section3" id="section3">Promozione</a></li>
+      <h4>Scheda Dispositivo:</h4>
+      <ul class="nav nav-pills nav-stacked" id="device_box">
+        <li class="active" id="sect1"><a href="" id="section1">Caratteristiche</a></li>
+        <li id="sect2"><a href="" id="section2">Specifiche tecniche</a></li>
+        <li id="sect3"><a href="" id="section3">Promozione</a></li>
         
       </ul><br>
       <h4>Dai un'occhiata ai servizi Smart Life associati:</h4>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#section1">SL1</a></li>
-        <li><a href="#section2">SL2</a></li>
-        <li><a href="#section3">SL3</a></li>
+        <li><a href="">SL1</a></li>
+        <li><a href="">SL2</a></li>
+        <li><a href="">SL3</a></li>
         
       </ul><br>
 	   <h4>Servizi assistenza associati: </h4>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#section1">Assistenza</a></li>
+        <li><a href="">Assistenza</a></li>
        
         
       </ul><br>
@@ -142,9 +142,9 @@
     <div class="col-sm-9">
       <h4><small>ORIENTATION INFO</small></h4>
       <hr>
-      <h2 id="device_name">Apple iPhone 6s 16GB</h2>
+      <h2 id="device_name"></h2>
       <br>
-      <p id="description"> Display Retina HD da 4.7" con 3D Touch. Alluminio serie 7000 e vetro più resistente. Chip A9 con architettura a 64 bit di livello desktop. Nuova fotocamera iSight da 12MP con Live Photos. Touch ID. Connessioni Wi-Fi e 4G LTE più veloci.1 Batteria a lunga durata.2 E ancora, iOS 9 e iCloud. Il tutto in un elegante guscio unibody.
+      <p id="description"> 
 	  
 	  </p>
       <br>
@@ -155,7 +155,7 @@
         
         <div class="col-sm-4">
             <div class="panel panel-primary" >
-                <img class="img-responsive" id ="img_panel" src="../img/apple-iPhone6s_Gld-2.jpg"/>
+                <img class="img-responsive" id ="img_panel"/>
                 <div class="panel-footer">
                 
                 <a href="#">
@@ -172,10 +172,8 @@
                 
                 <div>
                     <div id="main_content">
-                        <b>Caratteristiche principali:</b> 
-                        <p/>
-                        <p>asdsadsa dsadsadsad sadsadsadsadsadsadsadsadsadsadsadsadwqdsadwqsdqdsqsadsadqs sadsad qwe  bvmmxmm d</p>
-                        <p id="price">Prezzo: 700€</p>
+                        
+                        <p id="price"></p>
                     </div>
                 </div>
           
@@ -192,12 +190,12 @@
           
 
           
-         <a class="nav-link active" href="#">Torna indietro</a>
+         <a class="nav-link active" href="#" id="back">Torna indietro</a>
  
 		 		 <span class="glyphicon glyphicon-chevron-right toRight" ></span>
 		
-         <a class="nav-link toRight" href="#">Successivo</a>
-           <a class="nav-link toRight" href="#">Precedente</a>
+         <a class="nav-link toRight" id="next_in_group" href="">Successivo</a>
+           <a class="nav-link toRight" id="previous_in_group" href="">Precedente</a>
           <span class="glyphicon glyphicon-chevron-left toRight"></span>
 
 

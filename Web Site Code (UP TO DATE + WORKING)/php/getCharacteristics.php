@@ -19,7 +19,7 @@ function getSpecification($name){
             mysql_query("SET CHARACTER SET utf8_bin");
             mysql_query("SET COLLATION_CONNECTION = 'utf8mb4_bin'");
         
-            $query = "SELECT description, characteristics, price
+            $query = "SELECT name, description, characteristics, price
                       FROM device d
                       WHERE d.name="."'".$name."'";
 			
