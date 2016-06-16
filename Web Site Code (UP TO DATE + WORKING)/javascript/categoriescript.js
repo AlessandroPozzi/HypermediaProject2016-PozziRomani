@@ -16,7 +16,8 @@ function documentReady(){
      $(".name_elem").click(function(event) {
     var elem = $(event.target).text();
 	console.log("sono elem sul client: "+elem);
-	loadElemPage(elem);
+    var catX = $("#title").text();
+	loadElemPage(elem, catX);
 	
 	
 	
@@ -35,9 +36,9 @@ function loadCatPage(catX){
 
 }
 
-function loadElemPage(elem){
+function loadElemPage(elem, catX){
 	
-	var url="../php/getMultiTopic.php?name=" + elem;
+	var url="../php/getMultiTopic.php?name=" + elem + "&cat=" + catX;
     window.location.href = url;
 
 }

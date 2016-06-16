@@ -1,8 +1,8 @@
 <?php
 
-getSpecification($_POST["name"]);
+getNextInGroup($_POST["name"], $_POST["category"]);
 
-function getSpecification($name){
+function getNextInGroup($name, $category){
     
     mysql_query("SET NAMES 'utf8_bin'");
     mysql_query("SET CHARACTER SET utf8_bin");
@@ -19,9 +19,12 @@ function getSpecification($name){
         mysql_query("SET NAMES 'utf8_bin'");
         mysql_query("SET CHARACTER SET utf8_bin");
         mysql_query("SET COLLATION_CONNECTION = 'utf8mb4_bin'");
-
+        
         $query = "SELECT id_device, name 
-                  FROM device
+                  FROM device d 
+                  INNER JOIN device_categories_content dcc
+                      on d.name = dcc.content
+                  WHERE dcc.device_category ="."'".$category."'
                   ORDER BY id_device";
 
         $result = $mysqli->query($query);

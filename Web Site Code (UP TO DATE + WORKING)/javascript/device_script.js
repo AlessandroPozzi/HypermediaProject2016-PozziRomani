@@ -8,6 +8,8 @@ var lenght = null;
 
 var device_name = null;
 
+var category = null;
+
 function documentReady(){
     
     device_name = $('#device_name').html();
@@ -15,6 +17,8 @@ function documentReady(){
     console.log(""+device_name);
     
     currentImage = $("#img_panel").attr("src");
+    
+    category = $("#category_info").attr("content");
     
     preloadImage();
 	
@@ -48,6 +52,7 @@ function documentReady(){
     });
     
     $(".top_landmark").mouseenter(function (e) {
+    
        $(".top_landmark").attr("class","active top_landmark");
     });
     $(".top_landmark").mouseleave(function (e) {
@@ -353,7 +358,7 @@ function move_in_group(event){
     $.ajax({
         method: "POST",
         url: "http://timhypermediaproject2016.altervista.org/php/get" + event.data.direction + "InGroup.php",
-        data: {name:device_name},
+        data: {name:device_name, category:category},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
@@ -423,7 +428,7 @@ function disable_activate_group_links(direction){
     $.ajax({ //check if there is a next/previous product
         method: "POST",
         url: "http://timhypermediaproject2016.altervista.org/php/get" + direction + "InGroup.php",
-        data: {name:device_name},
+        data: {name:device_name, category:category},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
@@ -438,12 +443,14 @@ function disable_activate_group_links(direction){
                 if (direction=="Previous"){
                     $("#previous_in_group").css("color", "red");
                     $("#previous_in_group").css("text-decoration","none"); 
+                    $("#next_in_group").css("color", "#337ab7");//reactivate links
                 }else{
                     $("#next_in_group").css("color", "red");
                     $("#next_in_group").css("text-decoration","none"); 
+                    $("#previous_in_group").css("color", "#337ab7");//reactivate links
                 }
             }else{
-                //reactivate links
+                
                 $("#previous_in_group").css("color", "#337ab7");
                 $("#next_in_group").css("color", "#337ab7");
             }
