@@ -1,8 +1,8 @@
 <?php
 
-getPreviousInGroup($_POST["name"], $_POST["category"]);
+getNextInGroup($_POST["name"], $_POST["category"]);
 
-function getPreviousInGroup($name, $category){
+function getNextInGroup($name, $category){
     
     mysql_query("SET NAMES 'utf8_bin'");
     mysql_query("SET CHARACTER SET utf8_bin");
@@ -20,23 +20,23 @@ function getPreviousInGroup($name, $category){
         mysql_query("SET CHARACTER SET utf8_bin");
         mysql_query("SET COLLATION_CONNECTION = 'utf8mb4_bin'");
         
-        if($category === "Tutti i dispositivi"){ //special case: all devices
+        if($category === "Tutti i servizi Smart Life"){ //special case: all devices
             
-            $query = "Select id_device, name
-                      FROM device
-                      ORDER BY id_device";
+            $query = "Select id_sl, name
+                      FROM sl
+                      ORDER BY id_sl";
             
         }else{
             
-            $query = "SELECT id_device, name 
-                  FROM device d 
-                  INNER JOIN device_categories_content dcc
-                      on d.name = dcc.content
-                  WHERE dcc.device_category ="."'".$category."'
-                  ORDER BY id_device";
+            $query = "SELECT id_sl, name 
+                  FROM sl
+                  INNER JOIN sl_categories_content scc
+                      on sl.name = scc.content
+                  WHERE scc.sl_category ="."'".$category."'
+                  ORDER BY id_sl";
             
         }
-
+        
         $result = $mysqli->query($query);
 
         if (!$result) {
@@ -51,31 +51,34 @@ function getPreviousInGroup($name, $category){
             }
         }
         
-        $id_device =  null;
-        $previous_elem = null;
+        $id_sl =  null;
+        $found = false;
         
         foreach ($myArray as $elem){
+            if($found){
+                
+                $id_sl = $elem["id_sl"];
+                $found = false;
+                break;
+            }
             
             if($elem["name"] == $name){
-                if ($previous_elem != null){
-                    //we have found the previous product in list
-                    $id_device = $previous_elem["id_device"]; 
-                    break;
-                }else{
-                    //reached the beginning of the group list; echo a null json object
-                    echo "{}";
-                    exit;
-                }
+                $found = true;
             }
-            $previous_elem = $elem;
+            
         }
         
-        //Recover the previous device:
+        if ($found == true){ //End of the group list reached; echo an empty json
+            echo "{}";
+            exit;
+        }
         
-        $query = "SELECT name, description, characteristics, price
-                  FROM device
-                  WHERE id_device=".$id_device;
+        //Recover the next device:
         
+        $query = "SELECT name, description
+                  FROM sl
+                  WHERE id_sl=".$id_sl;
+       
         $result = $mysqli->query($query);
 
         if($result->num_rows>0)

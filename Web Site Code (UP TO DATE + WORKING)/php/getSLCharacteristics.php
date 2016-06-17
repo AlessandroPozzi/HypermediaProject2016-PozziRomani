@@ -1,8 +1,8 @@
 <?php
 
-getSpecification($_POST["name"]);
+getSLCharacteristics($_POST["name"]);
 
-function getSpecification($name){
+function getSLCharacteristics($name){
     
     mysql_query("SET NAMES 'utf8_bin'");
     mysql_query("SET CHARACTER SET utf8_bin");
@@ -19,13 +19,13 @@ function getSpecification($name){
             mysql_query("SET CHARACTER SET utf8_bin");
             mysql_query("SET COLLATION_CONNECTION = 'utf8mb4_bin'");
         
-            $query = "SELECT t.spec_name, t.content
-                      FROM technical_spec t
-                      INNER JOIN device_to_spec dts
-                      on t.id_spec = dts.id_spec
-                      INNER JOIN device d
-                      on d.id_device = dts.id_device
-                      WHERE d.name="."'".$name."'";
+            $query = "SELECT sb.name, sb.content
+                      FROM sl_benefits sb
+                      INNER JOIN sl_to_benefits stb
+                      on stb.id_benefit = sb.id_benefit
+                      INNER JOIN sl
+                      on sl.id_sl = stb.id_sl
+                      WHERE sl.name="."'".$name."'";
 			
             $result = $mysqli->query($query);
 
@@ -46,7 +46,10 @@ function getSpecification($name){
             //close connection
             $mysqli->close();
     }
+    
 
+    
 }
+
 
 ?>

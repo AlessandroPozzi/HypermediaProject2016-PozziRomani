@@ -20,13 +20,23 @@ function getNextInGroup($name, $category){
         mysql_query("SET CHARACTER SET utf8_bin");
         mysql_query("SET COLLATION_CONNECTION = 'utf8mb4_bin'");
         
-        $query = "SELECT id_device, name 
+        if($category === "Tutti i dispositivi"){ //special case: all devices
+            
+            $query = "Select id_device, name
+                      FROM device
+                      ORDER BY id_device";
+            
+        }else{
+            
+            $query = "SELECT id_device, name 
                   FROM device d 
                   INNER JOIN device_categories_content dcc
                       on d.name = dcc.content
                   WHERE dcc.device_category ="."'".$category."'
                   ORDER BY id_device";
-
+            
+        }
+        
         $result = $mysqli->query($query);
 
         if (!$result) {

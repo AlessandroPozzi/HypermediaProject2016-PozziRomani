@@ -1,12 +1,6 @@
 $(document).ready(documentReady);
 
-var img = new Array();
-
-var currentImage = null;
-
-var lenght = null;
-
-var device_name = null;
+var sl_name = null;
 
 var category = null;
 
@@ -14,27 +8,19 @@ function documentReady(){
     
     //Update the global variables:
     
-    device_name = $('#device_name').html();
-    
-    console.log(""+device_name);
-    
-    currentImage = $("#img_panel").attr("src");
+    sl_name = $('#sl_name').html();
     
     category = $("#category_info").attr("content");
     
-    preloadImage(); //preload the URLs
-    
     //Set the event listeners:
 	
-    $("#section1").on("click",loadCharacteristics);
+    $("#section1").on("click",loadDescription);
     
-    $("#section2").on("click",loadSpecification);
+    $("#section2").on("click",loadCharacteristics);
     
-    $("#section3").on("click",loadPromo);
+    $("#section3").on("click",loadHowTo);
     
-    $("#previous_image").on("click", previous_image);
-    
-    $("#next_image").on("click", next_image);
+    $("#section4").on("click",loadPromo);
     
     $("#next_in_group").on("click", {direction: "Next"}, move_in_group);
     
@@ -54,30 +40,18 @@ function documentReady(){
     $("#next_in_group").mouseleave(function (e) {
        $("#next_in_group").css("text-decoration","none"); 
     });
-    
-    /*
-    $(".top_landmark").mouseenter(function (e) {
-    
-       $(".top_landmark").attr("class","active top_landmark");
-    });
-    $(".top_landmark").mouseleave(function (e) {
-       $(".top_landmark").attr("class","top_landmark");
-    });*/
         
     console.log("I'm ready");
 
 }
 
-//loads the "Caratteristiche" section
-function loadCharacteristics(){
+//loads the "Descrizione" section
+function loadDescription(){
   
-    console.log(""+device_name);
-    
     $.ajax({
         method: "POST",
-        //datatype = json is not necessary, the parsing is done later
-        url: "http://timhypermediaproject2016.altervista.org/php/getDeviceCharacteristics.php",
-        data: {name:device_name},
+        url: "http://timhypermediaproject2016.altervista.org/php/getSLDescription.php",
+        data: {name:sl_name},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
@@ -87,47 +61,34 @@ function loadCharacteristics(){
             //update the lateral bar:
             $("#sect2").removeAttr("class");
             $("#sect3").removeAttr("class");
+            $("#sect4").removeAttr("class");
             $('#sect1').attr('class', 'active');
             
             //remove and clear useless tags:
-            $("#description").empty();
-            $("#main_content").empty();
+            $("#main_content").empty(); //also removes "description" id tag
             
             //Update with new content
-            $("#description").append(response_parsed[0].description);
-            
-            $("#main_content").append("<h4>Caratteristiche principali: </h4>");
-            
             var p = document.createElement("p");
-            p.innerHTML = response_parsed[0].characteristics;
+            p.setAttribute("id","description");
+            p.innerHTML = (response_parsed[0].description);
             $("#main_content").append(p);
-            
-            $("#main_content").append("<br>");
-            
-            var b = document.createElement("b");
-            b.innerHTML = ("Prezzo: " + response_parsed[0].price + " €");
-            $("#main_content").append(b);
             
         },
         error: function(request,error) 
         {
             console.log("Error with the ajax call");
         }
-        
     });
-   
 	return false; //to avoid the scrolling down of the page
 }
 
-//loads the "Specifiche tecniche" section
-function loadSpecification(){
+//loads the "Caratteristiche" section
+function loadCharacteristics(){
   
-    console.log(""+device_name);
-    
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getDeviceSpecification.php",
-        data: {name:device_name},
+        url: "http://timhypermediaproject2016.altervista.org/php/getSLCharacteristics.php",
+        data: {name:sl_name},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
@@ -137,6 +98,7 @@ function loadSpecification(){
             //update the lateral bar:
             $("#sect1").removeAttr("class");
             $("#sect3").removeAttr("class");
+            $("#sect4").removeAttr("class");
             $('#sect2').attr('class', 'active');
             
             //remove and clear useless tags:
@@ -154,7 +116,7 @@ function loadSpecification(){
                 var th = document.createElement("th");
                 var td = document.createElement("td");
                 
-                th.innerHTML= response_parsed[spec].spec_name;
+                th.innerHTML= response_parsed[spec].name;
                 tr.appendChild(th);
                 td.innerHTML= response_parsed[spec].content;
                 tr.appendChild(td);
@@ -162,7 +124,7 @@ function loadSpecification(){
                 tbody.appendChild(tr);
                 
             }
-            $("#main_content").append("<h4>Specifiche tecniche:</h4><br>");
+            $("#main_content").append("<h4>Caratteristiche principali:</h4><br>");
             $("#main_content").append(table);
             
         },
@@ -176,23 +138,62 @@ function loadSpecification(){
 	return false; //to avoid the scrolling down of the page
 }
 
-//loads the "Promozioni" section
-function loadPromo(){
-    
+
+//loads the "Come si attiva" section
+function loadHowTo(){
+  
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getDevicePromo.php",
-        data: {name:device_name},
+        url: "http://timhypermediaproject2016.altervista.org/php/getSLHowTo.php",
+        data: {name:sl_name},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging stuff
+            console.log(JSON.parse(response));
             var response_parsed = JSON.parse(response);
             
             //update the lateral bar:
             $("#sect1").removeAttr("class");
             $("#sect2").removeAttr("class");
+            $("#sect4").removeAttr("class");
             $('#sect3').attr('class', 'active');
+            
+            //remove and clear useless tags:
+            $("#main_content").empty(); //also removes "description" id tag
+            
+            //Update with new content
+            var p = document.createElement("p");
+            p.innerHTML = (response_parsed[0].how_to);
+            $("#main_content").append(p);
+            
+        },
+        error: function(request,error) 
+        {
+            console.log("Error with the ajax call");
+        }
+    });
+	return false; //to avoid the scrolling down of the page
+}
+
+
+//loads the "Promozioni" section
+function loadPromo(){
+    
+    $.ajax({
+        method: "POST",
+        url: "http://timhypermediaproject2016.altervista.org/php/getSLPromo.php",
+        data: {name:sl_name},
+        success: function(response) {
+			
+        	console.log("Ajax call: success!");  
+            console.log(JSON.parse(response));  // debugging
+            var response_parsed = JSON.parse(response);
+            
+            //update the lateral bar:
+            $("#sect1").removeAttr("class");
+            $("#sect2").removeAttr("class");
+            $("#sect3").removeAttr("class");
+            $('#sect4').attr('class', 'active');
             
             //remove and clear useless tags:
             $("#main_content").empty();
@@ -207,40 +208,39 @@ function loadPromo(){
                 var new_price = response_parsed[promo].new_price;
                 var payment_inst = response_parsed[promo].payment_instalments;
                 var other_promo = response_parsed[promo].other_promo;
-            
-                if (new_price != ""){
-                	var b = document.createElement("b");
-                    b.innerHTML = "Prezzo in promozione: ";
-                    var p = document.createElement("p");
-                    p.innerHTML = new_price;
-                    div.appendChild(b);
+                
+                if (other_promo != ""){
+                	var p = document.createElement("p");
+                    p.innerHTML = other_promo + "<br>";
+                    p.setAttribute("class","center");
                     div.appendChild(p);
                 }
                 
+                                
                 if (payment_inst != ""){
                 	var b = document.createElement("b");
-                    b.innerHTML = "Offerta a rate: ";
+                    b.innerHTML = "Condizioni: ";
                     var p = document.createElement("p");
                     p.innerHTML = payment_inst;
                     div.appendChild(b);
                     div.appendChild(p);
                 }
-                
-                if (other_promo != ""){
+            
+                if (new_price != ""){
                 	var b = document.createElement("b");
-                    b.innerHTML = "Nell'offerta è incluso inoltre: ";
+                    b.innerHTML = "Prezzo: ";
                     var p = document.createElement("p");
-                    p.innerHTML = other_promo;
+                    p.innerHTML = new_price + "€";
                     div.appendChild(b);
                     div.appendChild(p);
                 }
                 
+                div.setAttribute("id","promo_box");
+                
                 $("#main_content").append(div);
+                $("#main_content").append("<br>");
                 
             }
-            
-            
-            
         },
         error: function(request,error) 
         {
@@ -249,128 +249,23 @@ function loadPromo(){
         
     });
     
-	return false; //to avoid the scrolling down of the page
-}
-
-//"Preload" the URLs of the images (not the actual images)
-function preloadImage(){
-    
-    $.ajax({
-        method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getDeviceImages.php",
-        data: {name:device_name},
-        success: function(response) {
-			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response)); 
-            var response_parsed = JSON.parse(response);
-            
-            
-            lenght = 0;
-            for (var elem in response_parsed){
-                lenght ++;
-            }
-            console.log("Json array lenght: " + lenght);
-            
-       
-            for (var elem in response_parsed){
-               img[elem] = "../img/" + response_parsed[elem].url;
-               console.log("Preload of image: " + response_parsed[elem].url)
-            }
-            console.log("Image preload success!");
-            
-            if (currentImage == null){ //safety measure + used when going to the next product
-                
-                $("#img_panel").attr("src", img[0]);
-                console.log("Content of the img 0: " + img[0]);
-                currentImage = img[0];
-                
-            }
-           
-            
-        },
-        error: function(request,error) 
-        {
-            console.log("Error with the ajax call");
-        }
-        
-    });
-    
 	return false;
 }
 
 
-function next_image(){
-    
-    console.log("Lenght: " + lenght);
-    console.log("current image: " +  currentImage);
-    
-    
-    for(i = 0; i < lenght; i++){
-    
-        console.log("img" + i + ": " + img[i]);
-        
-        //cycle the images:
-        if (img[i] == currentImage){
-            
-            if(i + 1 < lenght){
-                console.log("next image: " + img[i+1]);
-                currentImage = img[i+1];
-                $("#img_panel").attr("src", img[i+1]);
-                return false;
-            }else{
-                console.log("next image: " + img[0]);
-                currentImage = img[0];
-                $("#img_panel").attr("src", img[0]);
-                return false;
-            }
-            
-        }
-        
-    }
-}
 
-function previous_image(){
-    
-    console.log("Lenght: " + lenght);
-    console.log("current image: " +  currentImage);
-    
-    
-    for(i = 0; i < lenght; i++){
-    
-        console.log("img" + i + ": " + img[i]);
-        
-        //cycle the images:
-        if (img[i] == currentImage){
-            
-            if(i -1 >= 0){
-                console.log("previous image: " + img[i-1]);
-                currentImage = img[i-1];
-                $("#img_panel").attr("src", img[i-1]);
-                return false;
-            }else{
-                console.log("previous image: " + img[lenght-1]);
-                currentImage = img[lenght-1];
-                $("#img_panel").attr("src", img[lenght-1]);
-                return false;
-            }
-            
-        }
-        
-    }
-}
 
 //Update part of the page in order to display the next or previous product in the group
 function move_in_group(event){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/get" + event.data.direction + "DeviceInGroup.php",
-        data: {name:device_name, category:category},
+        url: "http://timhypermediaproject2016.altervista.org/php/get" + event.data.direction + "SLInGroup.php",
+        data: {name:sl_name, category:category},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging stuff
+            console.log(JSON.parse(response));  // debugging
             var response_parsed = JSON.parse(response);
             
             lenght = 0;
@@ -387,41 +282,29 @@ function move_in_group(event){
                 //update the lateral bar:
                 $("#sect2").removeAttr("class");
                 $("#sect3").removeAttr("class");
+                $("#sect4").removeAttr("class");
                 $('#sect1').attr('class', 'active');
 
                 //remove and clear useless tags + reset image:
-                $("#description").empty();
                 $("#main_content").empty();
-                $("#device_name").empty();
-                $("#price").empty();
+                $("#sl_name").empty();
                 $("#orientation2").empty();
-                img.length = 0; //empty images URLs' array
-                currentImage = null;
+                $("#sect4").remove();
                 $("#img_panel").attr("src", "");
-                $("#sect3").remove();
                 $(".spacing").remove();
 
                 /* Update with new content and update the vars: */
-                $("#device_name").append(response_parsed[0].name);
-                device_name = response_parsed[0].name;
-                preloadImage(); //must be done after resetting array and current image, and after setting the new name
+                $("#sl_name").append(response_parsed[0].name);
+                sl_name = response_parsed[0].name;
                 check_promotion(); //must be done after setting the new name and resetting the previous promotions
-                updateAvailableSL();
-                updateAssistanceFor();
-                $("#orientation2").append(device_name); //update orientation info
+                $("#orientation2").append(sl_name); //update orientation info
                 disable_activate_group_links(event.data.direction); //update the red/blue aspect of the group links
-                $("#description").append(response_parsed[0].description);
-                $("#main_content").append("<h4>Caratteristiche principali: </h4><br>");
-
+                loadImage();
+                updateForDevice1();
                 var p = document.createElement("p");
-                p.innerHTML = response_parsed[0].characteristics;
+                p.setAttribute("id","description");
+                p.innerHTML = (response_parsed[0].description);
                 $("#main_content").append(p);
-
-                $("#main_content").append("<br>");
-
-                var b = document.createElement("b");
-                b.innerHTML = ("Prezzo: " + response_parsed[0].price + " €");
-                $("#main_content").append(b);
                 
             }
             
@@ -441,8 +324,8 @@ function disable_activate_group_links(direction){
     
     $.ajax({ //check if there is a next/previous product
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/get" + direction + "DeviceInGroup.php",
-        data: {name:device_name, category:category},
+        url: "http://timhypermediaproject2016.altervista.org/php/get" + direction + "SLInGroup.php",
+        data: {name:sl_name, category:category},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
@@ -486,8 +369,8 @@ function check_promotion(){
     
      $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getDevicePromo.php",
-        data: {name:device_name},
+        url: "http://timhypermediaproject2016.altervista.org/php/getSLPromo.php",
+        data: {name:sl_name},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
@@ -503,19 +386,19 @@ function check_promotion(){
                 //add the lateral bar:
                 var li = document.createElement("li");
                 var a = document.createElement("a");
-                li.setAttribute("id","sect3");
-                a.setAttribute("id","section3");
+                li.setAttribute("id","sect4");
+                a.setAttribute("id","section4");
                 a.setAttribute("href", "");
                 a.innerHTML = "Promozione";
                 li.appendChild(a);
-                $("#device_box").append(li);
-                $("#section3").on("click",loadPromo); //add again the proper event
+                $("#sl_box").append(li);
+                $("#section4").on("click",loadPromo); //add again the proper event
             }
             
         },
         error: function(request,error) 
         {
-            console.log("Error with the ajax call");
+            console.log("Error with the ajax call: no promo associated to this product?");
         }
         
     });
@@ -524,50 +407,19 @@ function check_promotion(){
     
 }
 
-function updateAvailableSL(){
+
+function loadImage(){
     
-    $.ajax({
+     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getAvailableSL.php",
-        data: {name:device_name},
+        url: "http://timhypermediaproject2016.altervista.org/php/getSLImage.php",
+        data: {name:sl_name},
         success: function(response) {
 			
         	console.log("Ajax call: success!");  
             console.log(JSON.parse(response));  // debugging 
             var response_parsed = JSON.parse(response);
-            
-            var array_lenght = 0;
-            for (var elem in response_parsed){
-                array_lenght ++;
-            }
-            
-            //Remove the old SL services:
-            $("#availableSL_list").remove();
-            $("#availableSL_title").remove(); //remove the title
-            
-            if (array_lenght > 0){
-                
-                //Add the title and the the ul list tag
-                var title = "<h4 id='availableSL_title'>Dai un'occhiata ai servizi Smart Life associati:</h4>";
-                var ul = "<ul class='nav nav-pills nav-stacked' id='availableSL_list'>";
-                $("#availableSL_box").append(title + ul);
-                
-                for(var avSL in response_parsed){
-                    
-                    //add the available SL in the lateral bar:
-                    var li = document.createElement("li");
-                    var a = document.createElement("a");
-                    li.setAttribute("class","availableSL");//MAY BE REMOVED
-                    a.setAttribute("href", ""); //TODO SET THE HREF LINK TO THE PROPER PHP FILE
-                    a.innerHTML = response_parsed[avSL].name;
-                    li.appendChild(a);
-                    $("#availableSL_list").append(li);
-                    
-                }
-                
-                $("#availableSL_box").append("</ul>");
-                $("#availableSL_box").after("<br class='spacing'>");
-            }
+            $("#img_panel").attr("src", "../img/" + response_parsed[0].url);
             
         },
         error: function(request,error) 
@@ -578,18 +430,17 @@ function updateAvailableSL(){
     });
     
 	return false; 
-    
 }
 
-function updateAssistanceFor(){
+
+function updateForDevice1(){
     
         $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getAssistanceFor.php",
-        data: {name:device_name},
+        url: "http://timhypermediaproject2016.altervista.org/php/getForDevice1.php",
+        data: {name:sl_name},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
             console.log(JSON.parse(response));  // debugging 
             var response_parsed = JSON.parse(response);
             
@@ -599,27 +450,27 @@ function updateAssistanceFor(){
             }
             
             //Remove the old SL services:
-            $("#assistanceFor_list").remove();
-            $("#assistanceFor_title").remove(); 
+            $("#forDevice1_list").remove();
+            $("#forDevice1_title").remove(); 
             
             if (array_lenght > 0){
                 
                 //Add the title and the the ul list tag
-                var title = "<h4 id='assistanceFor_title'>Servizi assistenza associati:</h4>";
-                var ul = "<ul class='nav nav-pills nav-stacked' id='assistanceFor_list'>";
-                $("#assistanceFor_box").append(title + ul);
+                var title = "<h4 id='forDevice1_title'>Dai un'occhiata ai Prodotti associati:</h4>";
+                var ul = "<ul class='nav nav-pills nav-stacked' id='forDevice1_list'>";
+                $("#forDevice1_box").append(title + ul);
                 
                 //add the assistance_for button in the lateral bar:
                 var li = document.createElement("li");
                 var a = document.createElement("a");
-                li.setAttribute("class","assistanceFor");//MAY BE REMOVED
+                li.setAttribute("class","forDevice1"); //MAY BE REMOVED
                 a.setAttribute("href", ""); //TODO SET THE HREF LINK TO THE PROPER PHP FILE
-                a.innerHTML = "Assistenza";
+                a.innerHTML = "Prodotti";
                 li.appendChild(a);
-                $("#assistanceFor_list").append(li);
+                $("#forDevice1_list").append(li);
                     
-                $("#assistanceFor_box").append("</ul>");
-                $("#assistanceFor_box").after("<br class='spacing'>");
+                $("#forDevice1_box").append("</ul>");
+                $("#forDevice1_box").after("<br class='spacing'>");
                 
             }
             
