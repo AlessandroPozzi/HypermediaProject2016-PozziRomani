@@ -468,7 +468,6 @@ function getAssistanceTopic(){
                 $descr_nodes = $xpathsearch->query('//p[contains(@id,"description")]'); 
 				
 				$title_nodes = $xpathsearch->query('//h2[contains(@id,"assistance_name")]'); 
-                 $head_node = $xpathsearch->query('//head'); //cat info
 				
 				
          
@@ -506,11 +505,10 @@ function getAssistanceTopic(){
                      }
                 
 					$codetitle="<h2 id='assistance_name'>{$elem['name']}</h2>";
-					$codedescr = "<p id='description'>{$elem['description']}</p>";+
-                    $codeInfoCat = "<meta  id='category_info' content='".$category."'></meta>"; //cat info
+					$codedescr = "<p id='description'>{$elem['description']}</p>";
                     //$codedescr = "<p id='description'>{aaaaaaaa}</p>";
 				    $newdescr = $doc->createDocumentFragment();
-				    $catinfo = $doc->createDocumentFragment(); //cat info
+				
 					$newtitle = $doc->createDocumentFragment();
 					
 					
@@ -533,8 +531,7 @@ function getAssistanceTopic(){
 					
 					$title_parents->item(0)->replaceChild($newtitle,$title_nodes->item(0));
 					
-				$catinfo->appendXML($codeInfoCat); //cat info
-                    $head_node->item(0)->appendChild($catinfo);//cat info
+				
                     
          
 				  }

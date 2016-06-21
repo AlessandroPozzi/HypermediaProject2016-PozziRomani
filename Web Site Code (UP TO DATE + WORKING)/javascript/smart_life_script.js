@@ -464,7 +464,12 @@ function updateForDevice1(){
                 var li = document.createElement("li");
                 var a = document.createElement("a");
                 li.setAttribute("class","forDevice1"); //MAY BE REMOVED
-                a.setAttribute("href", ""); //TODO SET THE HREF LINK TO THE PROPER PHP FILE
+                var orientation = $("#orientation").text();
+                var orientation_slice = orientation.substring(0, orientation.length-2);
+                var assistance_link = "http://timhypermediaproject2016.altervista.org/php/For_Device1.php?slX=" + 
+                                    encodeURI(sl_name) + "&catX=" + encodeURI(category) + 
+                                    "&orientation=" + orientation_slice;
+                a.setAttribute("href", assistance_link);
                 a.innerHTML = "Prodotti";
                 li.appendChild(a);
                 $("#forDevice1_list").append(li);

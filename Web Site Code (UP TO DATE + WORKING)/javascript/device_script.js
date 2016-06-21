@@ -10,17 +10,19 @@ var device_name = null;
 
 var category = null;
 
+var sl_info = ""; //used only if the user come in this page from a Smart Life association
+
 function documentReady(){
     
     //Update the global variables:
     
     device_name = $('#device_name').html();
     
-    console.log(""+device_name);
-    
     currentImage = $("#img_panel").attr("src");
     
     category = $("#category_info").attr("content");
+    
+    sl_info = $("#sl_info").attr("content");
     
     preloadImage(); //preload the URLs
     
@@ -80,8 +82,6 @@ function loadCharacteristics(){
         data: {name:device_name},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging stuff
             var response_parsed = JSON.parse(response);
             
             //update the lateral bar:
@@ -130,8 +130,6 @@ function loadSpecification(){
         data: {name:device_name},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging stuff
             var response_parsed = JSON.parse(response);
             
             //update the lateral bar:
@@ -185,8 +183,6 @@ function loadPromo(){
         data: {name:device_name},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging stuff
             var response_parsed = JSON.parse(response);
             
             //update the lateral bar:
@@ -261,8 +257,6 @@ function preloadImage(){
         data: {name:device_name},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response)); 
             var response_parsed = JSON.parse(response);
             
             
@@ -275,14 +269,14 @@ function preloadImage(){
        
             for (var elem in response_parsed){
                img[elem] = "../img/" + response_parsed[elem].url;
-               console.log("Preload of image: " + response_parsed[elem].url)
+               //console.log("Preload of image: " + response_parsed[elem].url)
             }
             console.log("Image preload success!");
             
             if (currentImage == null){ //safety measure + used when going to the next product
                 
                 $("#img_panel").attr("src", img[0]);
-                console.log("Content of the img 0: " + img[0]);
+                //console.log("Content of the img 0: " + img[0]);
                 currentImage = img[0];
                 
             }
@@ -302,24 +296,18 @@ function preloadImage(){
 
 function next_image(){
     
-    console.log("Lenght: " + lenght);
-    console.log("current image: " +  currentImage);
-    
-    
     for(i = 0; i < lenght; i++){
     
-        console.log("img" + i + ": " + img[i]);
-        
         //cycle the images:
         if (img[i] == currentImage){
             
             if(i + 1 < lenght){
-                console.log("next image: " + img[i+1]);
+                //console.log("next image: " + img[i+1]);
                 currentImage = img[i+1];
                 $("#img_panel").attr("src", img[i+1]);
                 return false;
             }else{
-                console.log("next image: " + img[0]);
+                //console.log("next image: " + img[0]);
                 currentImage = img[0];
                 $("#img_panel").attr("src", img[0]);
                 return false;
@@ -332,24 +320,18 @@ function next_image(){
 
 function previous_image(){
     
-    console.log("Lenght: " + lenght);
-    console.log("current image: " +  currentImage);
-    
-    
     for(i = 0; i < lenght; i++){
     
-        console.log("img" + i + ": " + img[i]);
-        
         //cycle the images:
         if (img[i] == currentImage){
             
             if(i -1 >= 0){
-                console.log("previous image: " + img[i-1]);
+                //console.log("previous image: " + img[i-1]);
                 currentImage = img[i-1];
                 $("#img_panel").attr("src", img[i-1]);
                 return false;
             }else{
-                console.log("previous image: " + img[lenght-1]);
+                //console.log("previous image: " + img[lenght-1]);
                 currentImage = img[lenght-1];
                 $("#img_panel").attr("src", img[lenght-1]);
                 return false;
@@ -366,11 +348,9 @@ function move_in_group(event){
     $.ajax({
         method: "POST",
         url: "http://timhypermediaproject2016.altervista.org/php/get" + event.data.direction + "DeviceInGroup.php",
-        data: {name:device_name, category:category},
+        data: {name:device_name, category:category, sl_info:sl_info},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging stuff
             var response_parsed = JSON.parse(response);
             
             lenght = 0;
@@ -442,11 +422,9 @@ function disable_activate_group_links(direction){
     $.ajax({ //check if there is a next/previous product
         method: "POST",
         url: "http://timhypermediaproject2016.altervista.org/php/get" + direction + "DeviceInGroup.php",
-        data: {name:device_name, category:category},
+        data: {name:device_name, category:category, sl_info:sl_info},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response)); 
             var response_parsed = JSON.parse(response);
             
             var array_lenght = 0;
@@ -490,8 +468,6 @@ function check_promotion(){
         data: {name:device_name},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging 
             var response_parsed = JSON.parse(response);
             
             var array_lenght = 0;
@@ -532,8 +508,6 @@ function updateAvailableSL(){
         data: {name:device_name},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging 
             var response_parsed = JSON.parse(response);
             
             var array_lenght = 0;
@@ -613,7 +587,16 @@ function updateAssistanceFor(){
                 var li = document.createElement("li");
                 var a = document.createElement("a");
                 li.setAttribute("class","assistanceFor");//MAY BE REMOVED
-                a.setAttribute("href", ""); //TODO SET THE HREF LINK TO THE PROPER PHP FILE
+                var orientation = $("#orientation").text();
+                var orientation_slice = orientation.substring(0, orientation.length-2);
+                var default ="";
+                if(category == "sl_relation" || category=="assistance_relation"){
+                    default="&default=true";
+                }
+                var assistance_link = "http://timhypermediaproject2016.altervista.org/php/AssistanceFor.php?prodX=" + 
+                                    encodeURI(device_name) + "&catX=" + encodeURI(category) + 
+                                    "&orientation=" + orientation_slice +default;
+                a.setAttribute("href", assistance_link);
                 a.innerHTML = "Assistenza";
                 li.appendChild(a);
                 $("#assistanceFor_list").append(li);

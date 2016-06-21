@@ -1,8 +1,8 @@
 <?php
 
-getForDevice1($_POST["name"]);
+getAssistanceFAQs($_POST["name"]);
 
-function getForDevice1($name){
+function getAssistanceFAQs($name){
     
     mysql_query("SET NAMES 'utf8_bin'");
     mysql_query("SET CHARACTER SET utf8_bin");
@@ -19,13 +19,13 @@ function getForDevice1($name){
             mysql_query("SET CHARACTER SET utf8_bin");
             mysql_query("SET COLLATION_CONNECTION = 'utf8mb4_bin'");
         
-            $query = "SELECT d.name
-                      FROM device d
-                      INNER JOIN for_device_1 fd
-                      on d.id_device = fd.id_device
-                      INNER JOIN sl
-                      on sl.id_sl = fd.id_sl
-                      WHERE sl.name="."'".$name."'";
+            $query = "SELECT af.question, af.answer
+                      FROM assistance_faq af
+                      INNER JOIN assistance_to_faq atf
+                      on af.id_faq = atf.id_FAQ
+                      INNER JOIN assistance a
+                      on a.id_assistance = atf.id_assistance
+                      WHERE a.name="."'".$name."'";
 			
             $result = $mysqli->query($query);
 
@@ -39,7 +39,6 @@ function getForDevice1($name){
                 }
                
 	  			echo json_encode($myArray, JSON_UNESCAPED_UNICODE );
-                
             }else{
                 echo "{}";
             }
