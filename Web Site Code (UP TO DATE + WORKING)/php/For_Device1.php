@@ -54,7 +54,7 @@
            $back_parent_path = ($backnodes->item(0)->getNodePath())."/..";
            $newback = $doc->createDocumentFragment();
            $backcode="";
-           if($_GET['default']==false){
+           if($_GET['default']=="false"){
                $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getMultiTopic.php?name=".$_GET['slX'].htmlspecialchars("&")."catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation']."'>Vai a ".$_GET['slX']."</a>";
            }else{
                $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getMultiTopic.php?name=".$_GET['slX'].htmlspecialchars("&")."catX=Tutti i servizi Smart Life".htmlspecialchars("&")."orientation=SMART LIFE > Tutti i servizi Smart Life'>Vai a ".$_GET['slX']."</a>";
@@ -68,7 +68,7 @@
            $orientation_nodes = $xpathsearch->query('//small[contains(@id,"orientation")]'); 
            $orientation_parent_path = ($orientation_nodes->item(0)->getNodePath())."/..";
            $neworientation = $doc->createDocumentFragment();
-           if($_GET['default']==false){
+           if($_GET['default']=="false"){
              $orientation=$_GET['orientation']." > ".$_GET['slX']." > Prodotti associati";
              }else{
              $orientation="SMART LIFE > Tutti i servizi Smart Life > ".$_GET['slX']." > Prodotti associati";
@@ -120,7 +120,13 @@
 					
 					$codefooter = "<div class="."'panel-footer name_elem'".">{$elem['name']}</div>";
                     $codeimgandfooter = $codeimg.$codefooter;
-                    $href = "<a href='for_Device1_Target.php?name=".$elem['name'].htmlspecialchars("&")."slX=".$_GET['slX'].htmlspecialchars("&")."catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation']."'>"; // TO BE CHANGED
+                    $href="";
+                     if($_GET['default']=="false"){
+                        $href = "<a href='for_Device1_Target.php?name=".$elem['name'].htmlspecialchars("&")."slX=".$_GET['slX'].htmlspecialchars("&")."catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation']."'>"; // TO BE CHANGED
+                     }else{
+                           $href = "<a href='for_Device1_Target.php?name=".$elem['name'].htmlspecialchars("&")."slX=".$_GET['slX'].htmlspecialchars("&")."catX=Tutti i servizi Smart Life".htmlspecialchars("&")."orientation=SMART LIFE > Tutti i servizi Smart Life'>"; // TO BE CHANGED
+                  
+                     }
                     $codeprimary =$href."<div class= 'panel panel-primary'>{$codeimgandfooter}</div></a>";
                     $code= "<div class="."'col-sm-3'".">{$codeprimary}</div>";
 

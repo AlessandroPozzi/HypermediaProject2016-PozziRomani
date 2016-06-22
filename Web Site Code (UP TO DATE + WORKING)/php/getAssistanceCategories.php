@@ -50,7 +50,7 @@
 		    
 			 
              $query ="SELECT category FROM high_level_categories WHERE macro_group="."'".$high_cat."'";
-			 $queryevidenza="SELECT * FROM assistance WHERE In_evidenza = 1";
+			 $queryevidenza="SELECT * FROM assistance WHERE In_evidenza = 1 ORDER BY id_assistance";
 
              $result = $mysqli->query($query);
 		     $resultevidenza = $mysqli->query($queryevidenza);

@@ -27,7 +27,10 @@
              if($category == "Tutti i dispositivi"){
                 $query_category="SELECT * FROM device ORDER BY id_device";
              }
-             
+             if($category == "PROMOZIONI"){
+                $query_category="SELECT DISTINCT d.name,d.description,d.characteristics,d.price FROM device d JOIN promotion p JOIN device_to_promo dtp
+			    WHERE d.id_device = dtp.id_device AND dtp.id_promo = p.id_promo ORDER BY d.id_device";
+             }
              $result_category=$mysqli->query($query_category);
 			 $result = $mysqli->query($query);
 			
@@ -73,6 +76,15 @@
                         $next_nodes = $xpathsearch->query('//a[contains(@id,"next_in_group")]'); 
                         $next_nodes->item(0)->setAttribute("style","text-decoration:none ; color:red");
                     }
+                     // index pattern for promozioni
+					 if($_GET['catX'] == "PROMOZIONI"){
+                       $toRight_nodes  = $xpathsearch->query('//a[contains(@class,"toRight")]'); 
+                       $toRight_icons  = $xpathsearch->query('//span[contains(@class,"toRight")]'); 
+                       $toRight_nodes->item(0)->setAttribute("style","visibility:hidden");
+                       $toRight_nodes->item(1)->setAttribute("style","visibility:hidden");
+                       $toRight_icons->item(0)->setAttribute("style","visibility:hidden");
+                       $toRight_icons->item(1)->setAttribute("style","visibility:hidden");
+                     }
                 
 					$codetitle="<h2 id='device_name'>{$elem['name']}</h2>";
 					$codedescr = "<p id='description'>{$elem['description']}</p>";
@@ -149,7 +161,13 @@
            $backnodes = $xpathsearch->query('//a[contains(@id,"back")]'); 
            $back_parent_path = ($backnodes->item(0)->getNodePath())."/..";
            $newback = $doc->createDocumentFragment();
-           $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getElementOfCategory.php?catX=".$backElem."'>Vai a ".$backElem."</a>";
+           $backcode="";
+           if(!($_GET['catX'] == "PROMOZIONI")){
+             $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getElementOfCategory.php?catX=".$backElem."'>Vai a ".$backElem."</a>";
+           }else{
+             $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getPromotions.php'>Vai a PROMOZIONI</a>";
+
+           }
            $newback->appendXML($backcode);
            $back_parents = $xpathsearch->query($back_parent_path); 
            $back_parents->item(0)->replaceChild($newback,$backnodes->item(0));	
@@ -192,7 +210,7 @@
                $ass_for_parent_path = ($ass_for_nodes->item(0)->getNodePath())."/..";
                $newass_for = $doc->createDocumentFragment();
                $ass_for_code = "<li class='assistancefor'><a  href='http://timhypermediaproject2016.altervista.org/php/AssistanceFor.php?prodX=".$_GET['name'].htmlspecialchars("&").
-               "catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation']."'>Assistenza</a></li>";
+               "catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation'].htmlspecialchars("&")."default=false'>Assistenza</a></li>";
                $newass_for->appendXML($ass_for_code);
                $ass_for_parents = $xpathsearch->query($ass_for_parent_path); 
                $ass_for_parents->item(0)->replaceChild($newass_for,$ass_for_nodes->item(0));	
@@ -234,7 +252,8 @@
                 
                 foreach ($myArray2 as $elem2){
 
-                   $avail_sl_li = "<li class='availableSL'><a href='' >".$elem2["name"]."</a></li>"; //ADD the link to the SL -- TODO
+                   $avail_sl_li = "<li class='availableSL'><a href='AvailableSL_Target.php?name=".$elem2['name'].
+                   htmlspecialchars("&")."prodX=".$_GET['name'].htmlspecialchars("&")."catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation'].htmlspecialchars("&")."default=false' >".$elem2["name"]."</a></li>"; //ADD the link to the SL -- TODO
                     $av_sl_body = $av_sl_body.$avail_sl_li;
                    //$new_av_sl->appendXML($avail_sl_code);	
                     
@@ -275,8 +294,19 @@ function getSLTopic(){
          }
          else{
            $query ="SELECT * FROM sl WHERE name="."'".$name."'";
-			
+           $query_category="SELECT * FROM sl s JOIN sl_categories_content scc WHERE scc.sl_category='".$category."' AND
+             scc.content = s.name ORDER BY s.id_sl";
+             
+             if($category == "Tutti i servizi Smart Life"){
+                $query_category="SELECT * FROM sl ORDER BY id_sl";
+             }
+			  if($category == "PROMOZIONE"){
+                $query_category="SELECT DISTINCT s.name,s.description,s.how_to,d.price FROM sl s JOIN promotion p JOIN sl_to_promo stp
+			    WHERE s.id_sl = stp.id_sl AND stp.id_promo = s.id_promo ORDER BY s.id_sl";
+             }
+             
 			 $result = $mysqli->query($query);
+             $result_category=$mysqli->query($query_category);
 			 
 			 if($result->num_rows == 1){
 				  $myArray = array();
@@ -285,6 +315,12 @@ function getSLTopic(){
                     $myArray[] = array_map('utf8_encode', $row);
                 }
          
+               $categoryArray = array();
+                while($categoryrow = $result_category->fetch_array(MYSQL_ASSOC)){
+                    
+                    $categoryArray[] = array_map('utf8_encode', $categoryrow);
+                }
+                
              	$doc = new DOMDocument();
                 $doc->loadHTMLFile("../pages/sl.html");
 		        $xpathsearch = new DOMXPath($doc);
@@ -297,8 +333,35 @@ function getSLTopic(){
          
                 foreach($myArray as $elem){
 					  
-					
+					 $position=0;
+                     $count=0;
+					foreach($categoryArray as $elements){
+                     if($elements['name'] == $elem['name']) {$position=$count;}
+                    
+                     $count = $count+1;
+                    }
+                    
+                    //decide if prev link is red
+                    if($position == 0){
+                        $prev_nodes = $xpathsearch->query('//a[contains(@id,"previous_in_group")]'); 
+                        $prev_nodes->item(0)->setAttribute("style","text-decoration:none ; color:red");
+                    }
+                     //decide if next link is red
+                    if($position == ($count-1)){
+                        $next_nodes = $xpathsearch->query('//a[contains(@id,"next_in_group")]'); 
+                        $next_nodes->item(0)->setAttribute("style","text-decoration:none ; color:red");
+                    }
                 
+                
+                // index pattern for promozioni
+					 if($_GET['catX'] == "PROMOZIONI"){
+                       $toRight_nodes  = $xpathsearch->query('//a[contains(@class,"toRight")]'); 
+                       $toRight_icons  = $xpathsearch->query('//span[contains(@class,"toRight")]'); 
+                       $toRight_nodes->item(0)->setAttribute("style","visibility:hidden");
+                       $toRight_nodes->item(1)->setAttribute("style","visibility:hidden");
+                       $toRight_icons->item(0)->setAttribute("style","visibility:hidden");
+                       $toRight_icons->item(1)->setAttribute("style","visibility:hidden");
+                     }
 					$codetitle="<h2 id='sl_name'>{$elem['name']}</h2>";
 					$codedescr = "<p id='description'>{$elem['description']}</p>";
                     //$codedescr = "<p id='description'>{aaaaaaaa}</p>";
@@ -348,25 +411,36 @@ function getSLTopic(){
 					$img_nodes->item(0)->setAttribute("src",$url);
                     
          
+                    //handle promotion link
+           
+              $querypromotion = "SELECT * FROM sl_to_promo sp JOIN promotion p
+              WHERE'".$elem['id_sl']."'= sp.id_sl AND sp.id_promo = p.id_promo";
+           
+              $resultpromotion = $mysqli->query($querypromotion);
+		
+			 if($resultpromotion->num_rows == 0){
+                 $promotion_nodes = $xpathsearch->query('//a[contains(@id,"section4")]'); 
+                 $promotion_parent_path = ($promotion_nodes->item(0)->getNodePath())."/..";
+                 $promotion_parents= $xpathsearch->query($promotion_parent_path); 
+                 $promotion_parents->item(0)->removeChild($promotion_nodes->item(0));
 				  }
-                  
+              }    
                           //handle go back button
-           $query_back ="SELECT sl_category FROM sl_categories_content WHERE content="."'".$name."'";
-           $result_back = $mysqli->query($query_back);
-           $backArray = array();
-           while($backrow = $result_back->fetch_array(MYSQL_ASSOC)){
-                    $backArray[] =  array_map('utf8_encode', $backrow);
-                    
-              }
-           $backElem = $backArray[0];  
+          if(!($_GET['catX'] == null)){
+           $backElem = $_GET['catX'];  
            $backnodes = $xpathsearch->query('//a[contains(@id,"back")]'); 
            $back_parent_path = ($backnodes->item(0)->getNodePath())."/..";
            $newback = $doc->createDocumentFragment();
-           $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getElementOfCategory.php?catX=".$backElem['sl_category']."'>Vai a ".$backElem['sl_category']."</a>";
+           if(!($backElem == "PROMOZIONI")){
+               $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getElementOfCategory.php?catX=".$backElem."'>Vai a ".$backElem."</a>";
+           }else{
+               $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getPromotions.php'>Vai a PROMOZIONI</a>";
+
+           }
            $newback->appendXML($backcode);
            $back_parents = $xpathsearch->query($back_parent_path); 
            $back_parents->item(0)->replaceChild($newback,$backnodes->item(0));	
-           
+           }
            //handle orientation info
             $orientation=  $_GET['orientation']." > ";
          if(!($orientation==null)){   
@@ -404,7 +478,7 @@ function getSLTopic(){
                $for_dev_parent_path = ($for_dev_nodes->item(0)->getNodePath())."/..";
                $newfor_dev = $doc->createDocumentFragment();
                $for_dev_code = "<li class='forDevice1'><a  href='http://timhypermediaproject2016.altervista.org/php/For_Device1.php?slX=".$_GET['name'].htmlspecialchars("&").
-               "catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation']."'>Prodotti</a></li>";
+               "catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation'].htmlspecialchars("&")."default=false'>Prodotti</a></li>";
                $newfor_dev->appendXML($for_dev_code);
                $for_dev_parents = $xpathsearch->query($for_dev_parent_path); 
                $for_dev_parents->item(0)->replaceChild($newfor_dev,$for_dev_nodes->item(0));	
@@ -536,8 +610,21 @@ function getAssistanceTopic(){
 				$catinfo->appendXML($codeInfoCat); //cat info
                     $head_node->item(0)->appendChild($catinfo);//cat info
                     
-         
+                       //handle promotion link
+           
+              $querypromotion = "SELECT * FROM assistance_to_faq atf JOIN assistance_faq f
+              WHERE'".$elem['id_assistance']."'= atf.id_assistance AND atf.id_FAQ = f.id_faq";
+           
+              $resultpromotion = $mysqli->query($querypromotion);
+		
+			 if($resultpromotion->num_rows == 0){
+                 $promotion_nodes = $xpathsearch->query('//a[contains(@id,"section2")]'); 
+                 $promotion_parent_path = ($promotion_nodes->item(0)->getNodePath())."/..";
+                 $promotion_parents= $xpathsearch->query($promotion_parent_path); 
+                 $promotion_parents->item(0)->removeChild($promotion_nodes->item(0));
 				  }
+         
+		    }
                   
                           //handle go back button
         if($_GET['catX'] != null){
@@ -546,7 +633,7 @@ function getAssistanceTopic(){
            $back_parent_path = ($backnodes->item(0)->getNodePath())."/..";
            $newback = $doc->createDocumentFragment();
            if(!($_GET['catX']=="In evidenza")){
-              $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getElementOfCategory.php?catX=".$backElem['assistance_category']."'>Vai a ".$backElem['assistance_category']."</a>";
+              $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getElementOfCategory.php?catX=".$_GET['catX']."'>Vai a ".$_GET['catX']."</a>";
            }else{
               $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getAssistanceCategories.php'>Vai a ASSISTENZA</a>";
 
@@ -592,7 +679,7 @@ function getAssistanceTopic(){
                $for_dev_parent_path = ($for_dev_nodes->item(0)->getNodePath())."/..";
                $newfor_dev = $doc->createDocumentFragment();
                $for_dev_code = "<li class='forDevice2'><a  href='http://timhypermediaproject2016.altervista.org/php/For_Device2.php?assX=".$_GET['name'].htmlspecialchars("&").
-               "catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation']."'>Prodotti</a></li>";
+               "catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation'].htmlspecialchars("&")."default=false'>Prodotti</a></li>";
                $newfor_dev->appendXML($for_dev_code);
                $for_dev_parents = $xpathsearch->query($for_dev_parent_path); 
                $for_dev_parents->item(0)->replaceChild($newfor_dev,$for_dev_nodes->item(0));	

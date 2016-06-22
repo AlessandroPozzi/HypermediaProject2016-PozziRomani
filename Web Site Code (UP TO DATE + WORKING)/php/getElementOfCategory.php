@@ -30,8 +30,8 @@
              $query2." ORDER BY id_sl";
 			 $query3 ="SELECT * FROM assistance_categories_content WHERE assistance_category="."'".$catX."'";
 			 if($catX == "Tutti i servizi di Assistenza"){
-             
-                $query3 == "SELECT * FROM assistance_categories_content";
+              
+                $query3 = "SELECT * FROM assistance_categories_content";
               
              }
            //  $query3." ORDER BY id_assistance";
@@ -56,7 +56,7 @@
 		   $doc = new DOMDocument();
            $doc->loadHTMLFile("../pages/categories.html");
 		   $xpathsearch = new DOMXPath($doc);
-           
+         
             //handle title
            $titlenodes = $xpathsearch->query('//h2[contains(@id,"title")]'); 
            $title_parent_path = ($titlenodes->item(0)->getNodePath())."/..";
@@ -66,7 +66,7 @@
            $newtitle->appendXML($titlecode);
            $title_parents= $xpathsearch->query($title_parent_path); 
            $title_parents->item(0)->replaceChild($newtitle,$titlenodes->item(0));
-           
+          
            //handle go back button
            $query_back ="SELECT macro_group FROM high_level_categories WHERE category="."'".$catX."'";
            $result_back = $mysqli->query($query_back);
@@ -79,12 +79,17 @@
            $backnodes = $xpathsearch->query('//a[contains(@id,"back")]'); 
            $back_parent_path = ($backnodes->item(0)->getNodePath())."/..";
            $newback = $doc->createDocumentFragment();
-           $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getCategories2.php?high_cat=".$backElem['macro_group']."'>Vai a ".$backElem['macro_group']."</a>";
+           if(!($backElem['macro_group']=="ASSISTENZA")){
+              $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getCategories2.php?high_cat=".$backElem['macro_group']."'>Vai a ".$backElem['macro_group']."</a>";
+           }else{
+              $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getAssistanceCategories.php'>Vai a ".$backElem['macro_group']."</a>";
+       
+           }
            $newback->appendXML($backcode);
            $back_parents = $xpathsearch->query($back_parent_path); 
            $back_parents->item(0)->replaceChild($newback,$backnodes->item(0));
            
-           
+          
               //handle orientation info
            $orientation_nodes = $xpathsearch->query('//small[contains(@id,"orientation")]'); 
            $orientation_parent_path = ($orientation_nodes->item(0)->getNodePath())."/..";
@@ -101,9 +106,10 @@
            
            $nodes = $xpathsearch->query('//div[contains(@class,"result")]'); 
 		   
-		   
+		  
 		   
 		   if($result->num_rows>0){
+         
                 $myArray = array();
                 while($row = $result->fetch_array(MYSQL_ASSOC)){
                     $myArray[] =  array_map('utf8_encode', $row);
@@ -115,6 +121,7 @@
 				   $count=0;
 				  foreach($myArray as $elem){
 					$count = $count + 1; 
+                   
 					$newnode = $doc->createDocumentFragment();
                 
                 

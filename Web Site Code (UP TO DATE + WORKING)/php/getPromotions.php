@@ -1,10 +1,12 @@
 <?php
 
-    For_Device2();
+
+getPromotions();
+
+function getPromotions(){
+	
+		$catX = "PROMOZIONI";
 		
-       function For_Device2(){
-       	$catX = $_GET['catX'];
-		$assX = $_GET['assX'];
 		   
           $mysqli = new mysqli("localhost", "timhypermediaproject2016", "", "my_timhypermediaproject2016");
         //sql query
@@ -14,52 +16,37 @@
          }
          else{
 
-             $query1 ="SELECT d.name FROM device d JOIN for_device_2 fd JOIN assistance a WHERE a.name="."'".$assX."' AND a.id_assistance = fd.id_assistance AND
-			 fd.id_device = d.id_device ORDER BY d.id_device";
-			 
+             $query_device ="SELECT DISTINCT d.name FROM device d JOIN promotion p JOIN device_to_promo dtp
+			 WHERE d.id_device = dtp.id_device AND dtp.id_promo = p.id_promo ORDER BY d.id_device";
             
+			 $query_sl ="SELECT DISTINCT s.name FROM sl s JOIN promotion p JOIN sl_to_promo stp
+			 WHERE s.id_sl = stp.id_sl AND stp.id_promo = p.id_promo ORDER BY s.id_sl";
+          
 
-             $result1 = $mysqli->query($query1);
-			
+             $result_device = $mysqli->query($query_device);
+			 $result_sl = $mysqli->query($query_sl);
+		
+		     $doc = new DOMDocument();
+             $doc->loadHTMLFile("../pages/promotions.html");
+			 $xpathsearch = new DOMXPath($doc);
 			 
-		     manipulateResults($result1,$mysqli);
-			
-			
-
-            //close connection
-            $mysqli->close();
-            
-		 }
-       }
-	   
-	   function manipulateResults($result,$mysqli){
-		    $catX = $_GET['catX'];
-		   $doc = new DOMDocument();
-           $doc->loadHTMLFile("../pages/categories.html");
-		   $xpathsearch = new DOMXPath($doc);
-           
-            //handle title
+			 
+			   //handle title
            $titlenodes = $xpathsearch->query('//h2[contains(@id,"title")]'); 
            $title_parent_path = ($titlenodes->item(0)->getNodePath())."/..";
            $newtitle = $doc->createDocumentFragment();
-           $prodX = $_GET['assX']." - Prodotti associati";
-           $titlecode = "<h2 id='title'>{$assX}</h2>";
+          
+           $titlecode = "<h2 id='title'>{$catX}</h2>";
            $newtitle->appendXML($titlecode);
            $title_parents= $xpathsearch->query($title_parent_path); 
            $title_parents->item(0)->replaceChild($newtitle,$titlenodes->item(0));
            
            //handle go back button
-            
+          
            $backnodes = $xpathsearch->query('//a[contains(@id,"back")]'); 
            $back_parent_path = ($backnodes->item(0)->getNodePath())."/..";
            $newback = $doc->createDocumentFragment();
-           $backcode="";
-           if($_GET['default']=="false"){
-             $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getMultiTopic.php?name=".$_GET['assX'].htmlspecialchars("&")."catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation']."'>Vai a ".$_GET['assX']."</a>";
-           }else{
-             $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/php/getMultiTopic.php?name=".$_GET['assX'].htmlspecialchars("&")."catX=Tutti i servizi di Assistenza".htmlspecialchars("&")."orientation=ASSISTENZA > Tutti i servizi di Assistenza'>Vai a ".$_GET['assX']."</a>";
-
-           }
+           $backcode = "<a class='nav-link active' id='back' href='http://timhypermediaproject2016.altervista.org/index.html'>Vai alla HOME </a>";
            $newback->appendXML($backcode);
            $back_parents = $xpathsearch->query($back_parent_path); 
            $back_parents->item(0)->replaceChild($newback,$backnodes->item(0));
@@ -69,26 +56,41 @@
            $orientation_nodes = $xpathsearch->query('//small[contains(@id,"orientation")]'); 
            $orientation_parent_path = ($orientation_nodes->item(0)->getNodePath())."/..";
            $neworientation = $doc->createDocumentFragment();
-           $orientation= "";
-           if($_GET['default']=="false"){
-              $orientation=$_GET['orientation']." > ".$_GET['assX']." > Prodotti associati";
-              }else{
-              $orientation="ASSISTENZA > Tutti i servizi di Assistenza > ".$_GET['assX']." > Prodotti associati";
-              }
+           $orientation="Sei in: PROMOZIONI";
            $orientationcode = "<small id='orientation'>{$orientation}</small>";
            $neworientation->appendXML($orientationcode);
            $orientation_parents= $xpathsearch->query($orientation_parent_path); 
            $orientation_parents->item(0)->replaceChild($neworientation,$orientation_nodes->item(0));
+			 
+			 
+		    $doc = manipulateResults($result_device,$mysqli,$doc,"result_device");
+			$doc = manipulateResults($result_sl,$mysqli,$doc,"result_sl");
+			 
+             echo $doc->saveHtml();	
+
+            //close connection
+            $mysqli->close();
+            
+		 }
+       }
+	   
+	   function manipulateResults($result,$mysqli,$doc,$tagid){
+		   
+		 
+		   $xpathsearch = new DOMXPath($doc);
+           
+          
            
            
            
            
            
-           $nodes = $xpathsearch->query('//div[contains(@class,"result")]'); 
+           $nodes = $xpathsearch->query("//div[contains(@id,'$tagid')]"); 
 		   
 		   
 		   
 		   if($result->num_rows>0){
+           
                 $myArray = array();
                 while($row = $result->fetch_array(MYSQL_ASSOC)){
                     $myArray[] =  array_map('utf8_encode', $row);
@@ -122,14 +124,8 @@
 					
 					$codefooter = "<div class="."'panel-footer name_elem'".">{$elem['name']}</div>";
                     $codeimgandfooter = $codeimg.$codefooter;
-                    $href="";
-                    if($_GET['default']=="false"){
-                    $href = "<a href='for_Device2_Target.php?name=".$elem['name'].htmlspecialchars("&")."assX=".$_GET['assX'].htmlspecialchars("&")."catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation']."'>"; // TO BE CHANGED
-                   }else{
-                     $href = "<a href='for_Device2_Target.php?name=".$elem['name'].htmlspecialchars("&")."assX=".$_GET['assX'].htmlspecialchars("&")."catX=Tutti i servizi di Assistenza".htmlspecialchars("&")."orientation=ASSISTENZA > Tutti i servizi di Assistenza'>"; // TO BE CHANGED
-
-                   }
-                   $codeprimary =$href."<div class= 'panel panel-primary'>{$codeimgandfooter}</div></a>";
+                    $href = "<a href='getMultiTopic.php?name=".$elem['name'].htmlspecialchars("&")."catX=PROMOZIONI".htmlspecialchars("&")."orientation=Sei in: PROMOZIONI'>";
+                    $codeprimary =$href."<div class= 'panel panel-primary'>{$codeimgandfooter}</div></a>";
                     $code= "<div class="."'col-sm-3'".">{$codeprimary}</div>";
 
                    // $newnode->appendXML($code);
@@ -159,11 +155,15 @@
 						$acc=array();
 				 }
 			   }
-              echo $doc->saveHtml();	
+            
               
               
 			 }
-	   }
+	
+	   return $doc;
+	
+}
 
 
-     ?>
+
+?>

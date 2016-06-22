@@ -16,7 +16,10 @@
          }
          else{
            $query ="SELECT * FROM assistance WHERE name="."'".$name."'";
-			
+            $query_category ="SELECT a.name FROM device d JOIN assistance_for af JOIN assistance a WHERE d.name="."'".$_GET['prodX']."' AND d.id_device = af.id_device AND
+			 af.id_assistance = a.id_assistance ORDER BY a.id_assistance";
+             
+			 $result_category=$mysqli->query($query_category);
 			 $result = $mysqli->query($query);
 			 
 			 if($result->num_rows == 1){
@@ -25,7 +28,12 @@
                     //$myArray[] = $row;
                     $myArray[] = array_map('utf8_encode', $row);
                 }
-         
+                 $categoryArray = array();
+                while($categoryrow = $result_category->fetch_array(MYSQL_ASSOC)){
+                    
+                    $categoryArray[] = array_map('utf8_encode', $categoryrow);
+                }
+                
              	$doc = new DOMDocument();
                 $doc->loadHTMLFile("../pages/assistance.html");
 		        $xpathsearch = new DOMXPath($doc);
@@ -38,7 +46,24 @@
          
          
                 foreach($myArray as $elem){
-					  
+					 $position=0;
+                     $count=0;
+					foreach($categoryArray as $elements){
+                     if($elements['name'] == $elem['name']) {$position=$count;}
+                    
+                     $count = $count+1;
+                    }
+                    
+                    //decide if prev link is red
+                    if($position == 0){
+                        $prev_nodes = $xpathsearch->query('//a[contains(@id,"previous_in_group")]'); 
+                        $prev_nodes->item(0)->setAttribute("style","text-decoration:none ; color:red");
+                    }
+                     //decide if next link is red
+                    if($position == ($count-1)){
+                        $next_nodes = $xpathsearch->query('//a[contains(@id,"next_in_group")]'); 
+                        $next_nodes->item(0)->setAttribute("style","text-decoration:none ; color:red");
+                    }
 					
                 
 					$codetitle="<h2 id='assistance_name'>{$elem['name']}</h2>";

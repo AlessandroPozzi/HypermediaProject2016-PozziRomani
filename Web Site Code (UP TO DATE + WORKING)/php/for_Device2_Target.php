@@ -17,12 +17,10 @@
          
 		    		 
              $query ="SELECT * FROM device WHERE name="."'".$name."'";
-			 $query_category="SELECT * FROM device d JOIN device_categories_content dcc WHERE dcc.device_category='".$category."' AND
-             dcc.content = d.name ORDER BY d.id_device";
-             
-             if($category == "Tutti i dispositivi"){
-                $query_category="SELECT * FROM device ORDER BY id_device";
-             }
+			
+             $query_category ="SELECT d.name FROM device d JOIN for_device_2 fd JOIN assistance a WHERE a.name="."'".$_GET['assX']."' AND a.id_assistance = fd.id_assistance AND
+			 fd.id_device = d.id_device ORDER BY d.id_device";
+           
              
              $result_category=$mysqli->query($query_category);
 			 $result = $mysqli->query($query);
@@ -205,13 +203,54 @@
                     $ass_for_box_single->removeChild($ass_for_box_single->childNodes->item(0));
                 }
             
-             
+           
            
            }
            
         
            
-             
+                //handle available SL
+            
+                  $query = "SELECT sl.name
+                  FROM sl
+                  INNER JOIN available_sl_service ass
+                  on sl.id_sl = ass.id_sl
+                  INNER JOIN device d
+                  on d.id_device = ass.id_device
+                  WHERE d.name="."'".$name."'";
+                 
+              $result = $mysqli->query($query);
+
+            if($result->num_rows>0)
+            { 
+                $search = $xpathsearch->query('//div[contains(@id,"availableSL_box")]'); 
+                $avail_sl_box = $search->item(0);
+                $new_av_sl = $doc->createDocumentFragment();
+                $av_sl_title = "<h4 id='availableSL_title'>Dai un'occhiata ai servizi Smart Life associati:</h4>";
+                $new_av_sl->appendXML($av_sl_title);
+                $av_sl_body = "<ul class='nav nav-pills nav-stacked' id='availableSL_list'>";
+                //$new_av_sl->appendXML($av_sl_ul);
+                
+               while($row2 = $result->fetch_array(MYSQL_ASSOC)){
+                   $myArray2[] = array_map('utf8_encode', $row2);
+               }
+                
+                foreach ($myArray2 as $elem2){
+
+                   $avail_sl_li = "<li class='availableSL'><a href='AvailableSL_Target.php?name=".$elem2['name'].
+                   htmlspecialchars("&")."prodX=".$_GET['name'].htmlspecialchars("&")."catX=".$_GET['catX'].htmlspecialchars("&")."orientation=".$_GET['orientation'].htmlspecialchars("&")."default=true' >".$elem2["name"]."</a></li>"; //ADD the link to the SL -- TODO
+                    $av_sl_body = $av_sl_body.$avail_sl_li;
+                   //$new_av_sl->appendXML($avail_sl_code);	
+                    
+                }
+                
+                $closed_ul = "</ul>";
+                $av_sl_body = $av_sl_body.$closed_ul;
+                $new_av_sl->appendXML($av_sl_body);
+                $avail_sl_box->appendChild($new_av_sl);
+
+               
+            }
              
              
              echo $doc->saveHtml();	
