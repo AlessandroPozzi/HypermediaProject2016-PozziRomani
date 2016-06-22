@@ -77,7 +77,8 @@
                     $chara_title = "<h4>Caratteristiche principali:</h4>";
 					$chara = $chara_title.$elem['characteristics'].$codeprice;
                     $codechara =  "<div id='main_content'>{$chara}</div>";
-                    $codeInfoCat = "<meta  id='category_info' content='".$category."'></meta>"; //cat info
+                    $codeInfoCat = "<meta  id='category_info' content='assistance_relation'></meta>"; //cat info
+                    $codeInfoAssistance = "<meta  id='assistance_info' content='".$_GET['assX']."'></meta>"; //related assistance info
                     
                     $queryimg="SELECT url FROM content_images WHERE content="."'".$elem['name']."'";
 					$resultimg=$mysqli->query($queryimg);
@@ -96,15 +97,20 @@
 					$newchara = $doc->createDocumentFragment();
 					$newtitle = $doc->createDocumentFragment();
                     $catinfo = $doc->createDocumentFragment(); //cat info
-					
+					$assistanceinfo = $doc->createDocumentFragment(); //related assistance info
 					
 					$newdescr->appendXML($codedescr);
 					$newchara->appendXML($codechara);
 					$newtitle->appendXML($codetitle);
                     $catinfo->appendXML($codeInfoCat); //cat info
+                    $assistanceinfo->appendXML($codeInfoAssistance); //related assistance info
                       
                     
                     $head_node->item(0)->appendChild($catinfo);//cat info
+                    $head_node->item(0)->appendChild($assistanceinfo); //related assistance assistance info
+
+
+
 					$descr_parent_path =($descr_nodes->item(0)->getNodePath())."/..";
                     
 					$chara_parent_path =($chara_nodes->item(0)->getNodePath())."/..";

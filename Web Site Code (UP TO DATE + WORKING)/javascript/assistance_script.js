@@ -313,13 +313,13 @@ function updateForDevice2(){
                 var li = document.createElement("li");
                 var a = document.createElement("a");
                 li.setAttribute("class","forDevice2");//MAY BE REMOVED
-                var default="";
+                var flag="";
                 if(category == "device_relation"){
-                    default="&default=true";
+                    flag="&default=true";
                 }
-                var forDevice2_link = "http://timhypermediaproject2016.altervista.org/php/ForDevice2.php?assX=" + 
+                var forDevice2_link = "http://timhypermediaproject2016.altervista.org/php/For_Device2.php?assX=" + 
                                     encodeURI(assistance_name) + "&catX=" + encodeURI(category) + 
-                                    "&orientation=" + orientation + default;
+                                    "&orientation=" + orientation + flag;
                 a.setAttribute("href", forDevice2_link);
                 a.innerHTML = "Prodotti";
                 li.appendChild(a);

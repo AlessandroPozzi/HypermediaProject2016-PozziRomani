@@ -48,7 +48,7 @@
 				
 					$newtitle = $doc->createDocumentFragment();
                     $codeInfoCat = "<meta  id='category_info' content='device_relation'></meta>"; //cat info
-                    $codeInfoDevice = "<meta  id='sl_info' content='".$_GET['prodX']."'></meta>"; //related device info
+                    $codeInfoDevice = "<meta  id='device_info' content='".$_GET['prodX']."'></meta>"; //related device info
 					
 					$catinfo = $doc->createDocumentFragment(); //cat info
                     $deviceinfo = $doc->createDocumentFragment(); //related device info

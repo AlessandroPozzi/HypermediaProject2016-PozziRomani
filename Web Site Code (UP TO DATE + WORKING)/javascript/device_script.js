@@ -12,6 +12,8 @@ var category = null;
 
 var sl_info = ""; //used only if the user come in this page from a Smart Life association
 
+var assistance_info = ""; //used only if the user come in this page from an assistance association
+
 function documentReady(){
     
     //Update the global variables:
@@ -23,6 +25,8 @@ function documentReady(){
     category = $("#category_info").attr("content");
     
     sl_info = $("#sl_info").attr("content");
+    
+    assistance_info = $("#assistance_info").attr("content");
     
     preloadImage(); //preload the URLs
     
@@ -348,7 +352,7 @@ function move_in_group(event){
     $.ajax({
         method: "POST",
         url: "http://timhypermediaproject2016.altervista.org/php/get" + event.data.direction + "DeviceInGroup.php",
-        data: {name:device_name, category:category, sl_info:sl_info},
+        data: {name:device_name, category:category, sl_info:sl_info, assistance_info:assistance_info},
         success: function(response) {
 			
             var response_parsed = JSON.parse(response);
@@ -422,7 +426,7 @@ function disable_activate_group_links(direction){
     $.ajax({ //check if there is a next/previous product
         method: "POST",
         url: "http://timhypermediaproject2016.altervista.org/php/get" + direction + "DeviceInGroup.php",
-        data: {name:device_name, category:category, sl_info:sl_info},
+        data: {name:device_name, category:category, sl_info:sl_info, assistance_info:assistance_info},
         success: function(response) {
 			
             var response_parsed = JSON.parse(response);
@@ -589,13 +593,13 @@ function updateAssistanceFor(){
                 li.setAttribute("class","assistanceFor");//MAY BE REMOVED
                 var orientation = $("#orientation").text();
                 var orientation_slice = orientation.substring(0, orientation.length-2);
-                var default ="";
+                var flag ="";
                 if(category == "sl_relation" || category=="assistance_relation"){
-                    default="&default=true";
+                    flag="&default=true";
                 }
                 var assistance_link = "http://timhypermediaproject2016.altervista.org/php/AssistanceFor.php?prodX=" + 
                                     encodeURI(device_name) + "&catX=" + encodeURI(category) + 
-                                    "&orientation=" + orientation_slice +default;
+                                    "&orientation=" + orientation_slice + flag;
                 a.setAttribute("href", assistance_link);
                 a.innerHTML = "Assistenza";
                 li.appendChild(a);

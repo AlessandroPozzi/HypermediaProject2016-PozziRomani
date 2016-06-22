@@ -1,8 +1,8 @@
 <?php
 
-getPreviousInGroup($_POST["name"], $_POST["category"], $_POST["sl_info"]);
+getPreviousInGroup($_POST["name"], $_POST["category"], $_POST["sl_info"],$_POST["assistance_info"]);
 
-function getPreviousInGroup($name, $category, $sl){
+function getPreviousInGroup($name, $category, $sl, $assistance){
     
     mysql_query("SET NAMES 'utf8_bin'");
     mysql_query("SET CHARACTER SET utf8_bin");
@@ -29,7 +29,14 @@ function getPreviousInGroup($name, $category, $sl){
                                 AND fd.id_device = d.id_device 
                         ORDER BY d.id_device";
            
-            
+        }elseif($category === "assistance_relation"){
+
+        $query = "SELECT d.id_device, d.name 
+                    FROM device d JOIN for_device_2 fd JOIN assistance a   
+                    WHERE a.name="."'".$assistance."' 
+                            AND a.id_assistance = fd.id_assistance
+                            AND fd.id_device = d.id_device
+                            ORDER BY d.id_device";
             
         }elseif($category === "Tutti i dispositivi"){ //special case: the category is all devices (not explictly present in database)
             
