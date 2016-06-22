@@ -14,27 +14,30 @@
          }
          else{
 
-             $query1 ="SELECT * FROM device_categories_content WHERE device_category="."'".$catX."'";
+             $query1 ="SELECT * FROM device_categories_content dcc JOIN device d WHERE dcc.device_category="."'".$catX."' AND dcc.content
+             = d.name";
              if($catX == "Tutti i dispositivi"){
              
-                $query1="SELECT * FROM device_categories_content";
+                $query1="SELECT * FROM device_categories_content dcc JOIN device d WHERE dcc.content  = d.name";
+           
              
              }
-             $query1." ORDER BY id_device";
-			 $query2 ="SELECT * FROM sl_categories_content WHERE sl_category="."'".$catX."'";
+             $query1 = $query1." ORDER BY d.id_device";
+			 $query2 ="SELECT * FROM sl_categories_content scc JOIN sl s WHERE scc.sl_category="."'".$catX."' AND scc.content = s.name";
              if($catX == "Tutti i servizi Smart Life"){
                 
-                $query2="SELECT * FROM sl_categories_content";
+                $query2="SELECT * FROM sl_categories_content scc JOIN sl s WHERE scc.content = s.name";
                  
              }
-             $query2." ORDER BY id_sl";
-			 $query3 ="SELECT * FROM assistance_categories_content WHERE assistance_category="."'".$catX."'";
+             $query2 = $query2." ORDER BY s.id_sl";
+			 $query3 ="SELECT * FROM assistance_categories_content acc JOIN assistance a WHERE assistance_category="."'".$catX."' AND acc.content
+             = a.name";
 			 if($catX == "Tutti i servizi di Assistenza"){
               
-                $query3 = "SELECT * FROM assistance_categories_content";
+                $query3 = "SELECT * FROM assistance_categories_content acc JOIN assistance a WHERE acc.content = a.name";
               
              }
-           //  $query3." ORDER BY id_assistance";
+             $query3 = $query3." ORDER BY a.id_assistance";
 
              $result1 = $mysqli->query($query1);
 			 $result2 = $mysqli->query($query2);
