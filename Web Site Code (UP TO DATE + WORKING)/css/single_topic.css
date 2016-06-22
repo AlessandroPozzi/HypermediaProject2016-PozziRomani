@@ -79,6 +79,7 @@ body{
 }
 .container-fluid #second{
     background-color: white;
+    margin-bottom: 1%;
 }
 .row {
     background-color: white;
@@ -274,6 +275,14 @@ float: right
 
 .img-responsive{
     padding: 9%;
+}
+
+.testimonial{
+    text-align: center;
+}
+
+.imgtest{
+    padding: 2%;
 }
 
 .well{

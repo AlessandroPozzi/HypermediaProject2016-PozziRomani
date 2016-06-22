@@ -11,11 +11,12 @@ function getBusiness(){
         exit();
     }
     else{
-
-            $query = "SELECT title, content
-                      FROM single_topic 
-                      WHERE name='Aspetti di mercato'";
-			
+            
+            $query = "SELECT title, st.content
+                      FROM single_topic st JOIN single_topic_content stc
+                      WHERE st.name='Aspetti di mercato'
+                            AND stc.name='Business'";
+            
             $result = $mysqli->query($query);
 
             if($result->num_rows>0)

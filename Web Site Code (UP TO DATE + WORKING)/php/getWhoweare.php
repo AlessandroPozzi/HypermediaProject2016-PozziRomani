@@ -14,8 +14,8 @@ function getBusiness(){
 
             $query = "SELECT title, st.content
                       FROM single_topic st JOIN single_topic_content stc
-                      WHERE st.name='Descrizione'
-                            AND stc.name='Governance'";
+                      WHERE st.name='Testimonials'
+                            AND stc.name='Chi siamo'";
 			
             $result = $mysqli->query($query);
 
@@ -37,16 +37,16 @@ function getBusiness(){
                 foreach($myArray as $elem){
                  
                     $doc = new DOMDocument();
-                    $doc->loadHTMLFile("../pages/governance.html");
+                    $doc->loadHTMLFile("../pages/whoweare.html");
                     $xpathsearch = new DOMXPath($doc);
 
                     
 
                     //handle title
-                   $titlenodes = $xpathsearch->query('//h2[contains(@id,"governance_title")]');
+                   $titlenodes = $xpathsearch->query('//h2[contains(@id,"whoweare_title")]');
                    $title_parent_path = ($titlenodes->item(0)->getNodePath())."/..";
                    $newtitle = $doc->createDocumentFragment();
-                   $titlecode = "<h2 id='governance_title'>".$elem['title']."</h2>";
+                   $titlecode = "<h2 id='whoweare_title'>".$elem['title']."</h2>";
                    $newtitle->appendXML($titlecode);
                    $title_parents= $xpathsearch->query($title_parent_path); 
                    $title_parents->item(0)->replaceChild($newtitle,$titlenodes->item(0));

@@ -79,6 +79,7 @@ body{
 }
 .container-fluid #second{
     background-color: white;
+    margin-bottom: 1%;
 }
 .row {
     background-color: white;

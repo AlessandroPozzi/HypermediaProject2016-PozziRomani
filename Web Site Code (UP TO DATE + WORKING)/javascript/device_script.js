@@ -535,8 +535,17 @@ function updateAvailableSL(){
                     //add the available SL in the lateral bar:
                     var li = document.createElement("li");
                     var a = document.createElement("a");
-                    li.setAttribute("class","availableSL");//MAY BE REMOVED
-                    a.setAttribute("href", ""); //TODO SET THE HREF LINK TO THE PROPER PHP FILE
+                    li.setAttribute("class","availableSL");
+                    var flag ="";
+                    if(category == "sl_relation" || category=="assistance_relation"){
+                        flag="&default=true";
+                    }
+                    var orientation = $("#orientation").text();
+                    var sl_link = "http://timhypermediaproject2016.altervista.org/php/AvailableSL_Target.php?name=" +
+                                            response_parsed[avSL].name + "&prodX=" + 
+                                            encodeURI(device_name) + "&catX=" + encodeURI(category) + 
+                                            "&orientation=" + orientation + flag;
+                    a.setAttribute("href", sl_link); 
                     a.innerHTML = response_parsed[avSL].name;
                     li.appendChild(a);
                     $("#availableSL_list").append(li);
