@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phonegap>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id = "org.altervista.timhypermediaproject2016"
+        versionCode = "1"
+        version = "0.1.1"
+
+   <plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="pgb" />
+
     <allow-navigation href="*" />
+    <allow-intent href="*" />
     <access origin="*" />
-</phonegap>
+</widget>
