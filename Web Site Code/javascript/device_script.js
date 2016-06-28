@@ -1,14 +1,14 @@
 $(document).ready(documentReady);
 
-var img = new Array();
+var img = new Array(); //array of images url
 
-var currentImage = null;
+var currentImage = null; //link of the current image
 
-var lenght = null;
+var lenght = null; //number of images associated with this device
 
-var device_name = null;
+var device_name = null; //name of the current product
 
-var category = null;
+var category = null; //stores the category of device from which the page was loaded, or the relation info
 
 var sl_info = ""; //used only if the user come in this page from a Smart Life association
 
@@ -74,7 +74,12 @@ function documentReady(){
 
 }
 
-//loads the "Caratteristiche" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Caratteristiche" 
+* section of the page. The Ajax Call sends to the php file the name of the current device 
+* loaded in the page; expects as a response a JSON object cointaining the device's 
+* "Caratteristiche".
+*/
 function loadCharacteristics(){
   
     console.log(""+device_name);
@@ -97,17 +102,13 @@ function loadCharacteristics(){
             $("#description").empty();
             $("#main_content").empty();
             
-            //Update with new content
+            //Update with new content:
             $("#description").append(response_parsed[0].description);
-            
             $("#main_content").append("<h4>Caratteristiche principali: </h4>");
-            
             var p = document.createElement("p");
             p.innerHTML = response_parsed[0].characteristics;
             $("#main_content").append(p);
-            
             $("#main_content").append("<br>");
-            
             var b = document.createElement("b");
             b.innerHTML = ("Prezzo: " + response_parsed[0].price + " €");
             $("#main_content").append(b);
@@ -123,7 +124,12 @@ function loadCharacteristics(){
 	return false; //to avoid the scrolling down of the page
 }
 
-//loads the "Specifiche tecniche" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Specifiche tecniche" 
+* section of the page. The Ajax Call sends to the php file the name of the current device 
+* loaded in the page; expects as a response a JSON object cointaining the device's 
+* "Specifiche tecniche".
+*/
 function loadSpecification(){
   
     console.log(""+device_name);
@@ -178,7 +184,12 @@ function loadSpecification(){
 	return false; //to avoid the scrolling down of the page
 }
 
-//loads the "Promozioni" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Promozioni" 
+* section of the page. The Ajax Call sends to the php file the name of the current device 
+* loaded in the page; expects as a response a JSON object cointaining the device's 
+* "Promozioni".
+*/
 function loadPromo(){
     
     $.ajax({
@@ -197,10 +208,10 @@ function loadPromo(){
             //remove and clear useless tags:
             $("#main_content").empty();
             
-            //Update with new content
+            //Update with new content:
             $("#main_content").append("<h4>Offerte speciali per questo prodotto</h4><br>");
             
-            for (var promo in response_parsed){
+            for (var promo in response_parsed){ //usually there is one promo per device
             
             	var div = document.createElement("div");
                 
@@ -208,7 +219,7 @@ function loadPromo(){
                 var payment_inst = response_parsed[promo].payment_instalments;
                 var other_promo = response_parsed[promo].other_promo;
             
-                if (new_price != ""){
+                if (new_price != ""){ //new price of the device, if any
                 	var b = document.createElement("b");
                     b.innerHTML = "Prezzo in promozione: ";
                     var p = document.createElement("p");
@@ -217,7 +228,7 @@ function loadPromo(){
                     div.appendChild(p);
                 }
                 
-                if (payment_inst != ""){
+                if (payment_inst != ""){ //installments payment of the device, if any
                 	var b = document.createElement("b");
                     b.innerHTML = "Offerta a rate: ";
                     var p = document.createElement("p");
@@ -226,7 +237,7 @@ function loadPromo(){
                     div.appendChild(p);
                 }
                 
-                if (other_promo != ""){
+                if (other_promo != ""){ //extra promotions, if any
                 	var b = document.createElement("b");
                     b.innerHTML = "Nell'offerta è incluso inoltre: ";
                     var p = document.createElement("p");
@@ -239,8 +250,6 @@ function loadPromo(){
                 
             }
             
-            
-            
         },
         error: function(request,error) 
         {
@@ -252,7 +261,11 @@ function loadPromo(){
 	return false; //to avoid the scrolling down of the page
 }
 
-//"Preload" the URLs of the images (not the actual images)
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the URLs of the
+* images associated to this device. This function is called when the html page is loaded
+* and if the user moves to another device in the group.
+*/
 function preloadImage(){
     
     $.ajax({
@@ -263,29 +276,22 @@ function preloadImage(){
 			
             var response_parsed = JSON.parse(response);
             
-            
             lenght = 0;
             for (var elem in response_parsed){
                 lenght ++;
             }
-            console.log("Json array lenght: " + lenght);
-            
-       
             for (var elem in response_parsed){
                img[elem] = "../img/" + response_parsed[elem].url;
-               //console.log("Preload of image: " + response_parsed[elem].url)
             }
             console.log("Image preload success!");
             
             if (currentImage == null){ //safety measure + used when going to the next product
                 
                 $("#img_panel").attr("src", img[0]);
-                //console.log("Content of the img 0: " + img[0]);
                 currentImage = img[0];
                 
             }
            
-            
         },
         error: function(request,error) 
         {
@@ -297,7 +303,9 @@ function preloadImage(){
 	return false;
 }
 
-
+/**
+* Simply loads the next image URL in the image box.
+*/
 function next_image(){
     
     for(i = 0; i < lenght; i++){
@@ -306,12 +314,10 @@ function next_image(){
         if (img[i] == currentImage){
             
             if(i + 1 < lenght){
-                //console.log("next image: " + img[i+1]);
                 currentImage = img[i+1];
                 $("#img_panel").attr("src", img[i+1]);
                 return false;
             }else{
-                //console.log("next image: " + img[0]);
                 currentImage = img[0];
                 $("#img_panel").attr("src", img[0]);
                 return false;
@@ -322,6 +328,9 @@ function next_image(){
     }
 }
 
+/**
+* Simply loads the previous image URL in the image box.
+*/
 function previous_image(){
     
     for(i = 0; i < lenght; i++){
@@ -330,12 +339,10 @@ function previous_image(){
         if (img[i] == currentImage){
             
             if(i -1 >= 0){
-                //console.log("previous image: " + img[i-1]);
                 currentImage = img[i-1];
                 $("#img_panel").attr("src", img[i-1]);
                 return false;
             }else{
-                //console.log("previous image: " + img[lenght-1]);
                 currentImage = img[lenght-1];
                 $("#img_panel").attr("src", img[lenght-1]);
                 return false;
@@ -346,7 +353,15 @@ function previous_image(){
     }
 }
 
-//Update part of the page in order to display the next or previous product in the group
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file in order to update 
+* part of the page and display the next or previous product in this group.
+* The PHP file is chosen dynamically based on what the user has clicked on ("previous"
+* product or "next" product).
+* The Ajax Call sends to the php file the name of the current device, its 
+* category and the (optional) information about the smart life and assistance associated to this 
+* device. Expects as response the "Caratteristiche" information of this device.
+*/
 function move_in_group(event){
     
     $.ajax({
@@ -420,7 +435,15 @@ function move_in_group(event){
 	return false; 
 }
 
-//select the red (deactivated) or blue (activated) aspect of the group links
+/**
+* Auxialiary function that performs an ajax call in order to check if there is or not another device
+* next or before this device (the correct device group is inferred by the php file).
+* The Ajax Call sends to the php file the name of the current device, its 
+* category and the (optional) information about the assistance or smart life associated to this 
+* device. Expects as a response a JSON array whose lenght represents the 
+* number of device next or before this one. Based on the response, makes
+* the previous/successive links red or blue.
+*/
 function disable_activate_group_links(direction){
     
     $.ajax({ //check if there is a next/previous product
@@ -463,7 +486,12 @@ function disable_activate_group_links(direction){
     
 }
 
-//adds "Promozione" on the lateral bar only if there is at least one associated to the device 
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file in order to add, if present,
+* the lateral bar "Promozioni" of the new device that is being loaded.
+* Expects as a response a JSON array whose lenght represents the abstence (0) or presence (>0)
+* of the bar.
+*/
 function check_promotion(){
     
      $.ajax({
@@ -504,6 +532,12 @@ function check_promotion(){
     
 }
 
+/*
+* Performs an ajax call in order to check if there is or not a "available_SL" relation 
+* from this device to some smart life services. Updates the lateral button accordingly.
+* Expects as a response a JSON array whose lenght represents the abstence (0) or presence (>0)
+* of the bar.
+*/
 function updateAvailableSL(){
     
     $.ajax({
@@ -568,6 +602,12 @@ function updateAvailableSL(){
     
 }
 
+/*
+* Performs an ajax call in order to check if there is or not a "assistance_for" relation 
+* from this device to some assistance. Updates the lateral button accordingly.
+* Expects as a response a JSON array whose lenght represents the abstence (0) or presence (>0)
+* of the bar.
+*/
 function updateAssistanceFor(){
     
         $.ajax({

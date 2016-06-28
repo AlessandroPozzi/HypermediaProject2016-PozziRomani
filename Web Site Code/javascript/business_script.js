@@ -12,7 +12,12 @@ function documentReady(){
 
 }
 
-//loads the "Aspetti di mercato" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Aspetti di mercato" 
+* section of the page. The Ajax Call sends to the php file the name of the required sub-single topic
+* (that is, Aspetti di mercato); expects as a response a JSON object cointaining the single topic's
+* "Aspetti di mercato".
+*/
 function loadDescription(){
   
     $.ajax({
@@ -47,7 +52,12 @@ function loadDescription(){
 	return false; //to avoid the scrolling down of the page
 }
 
-//loads the "Per gli investitori" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Per gli investitori" 
+* section of the page. The Ajax Call sends to the php file the name of the required sub-single topic
+* (that is, Per gli investitori); expects as a response a JSON object cointaining the single topic's
+* "Per gli investitori".
+*/
 function loadForInvestors(){
   
     $.ajax({

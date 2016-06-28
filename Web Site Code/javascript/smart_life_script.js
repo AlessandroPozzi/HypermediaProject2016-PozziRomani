@@ -1,8 +1,8 @@
 $(document).ready(documentReady);
 
-var sl_name = null;
+var sl_name = null; //the name of this smart life product
 
-var category = null;
+var category = null; //stores the category of smart life from which the page was loaded, or the relation info
 
 function documentReady(){
     
@@ -45,7 +45,13 @@ function documentReady(){
 
 }
 
-//loads the "Descrizione" section
+
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Descrizione" 
+* section of the page. The Ajax Call sends to the php file the name of the current smart life 
+* loaded in the page; expects as a response a JSON object cointaining the smart life's 
+* "Descrizione".
+*/
 function loadDescription(){
   
     $.ajax({
@@ -82,7 +88,12 @@ function loadDescription(){
 	return false; //to avoid the scrolling down of the page
 }
 
-//loads the "Caratteristiche" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Caratteristiche" 
+* section of the page. The Ajax Call sends to the php file the name of the current smart life 
+* loaded in the page; expects as a response a JSON object cointaining the smart life's 
+* "Caratteristiche".
+*/
 function loadCharacteristics(){
   
     $.ajax({
@@ -104,8 +115,7 @@ function loadCharacteristics(){
             //remove and clear useless tags:
             $("#main_content").empty();
             
-            //Update with new content
-            
+            //Update with new content:
             var table = document.createElement("table");
             table.setAttribute("class", "table table-condensed");
             var tbody = document.createElement("tbody");
@@ -139,7 +149,12 @@ function loadCharacteristics(){
 }
 
 
-//loads the "Come si attiva" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Come si attiva" 
+* section of the page. The Ajax Call sends to the php file the name of the current smart life 
+* loaded in the page; expects as a response a JSON object cointaining the smart life's 
+* "Come si attiva".
+*/
 function loadHowTo(){
   
     $.ajax({
@@ -176,7 +191,12 @@ function loadHowTo(){
 }
 
 
-//loads the "Promozioni" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Promozioni" 
+* section of the page. The Ajax Call sends to the php file the name of the current smart life 
+* loaded in the page; expects as a response a JSON object cointaining the smart life's 
+* "Promozioni".
+*/
 function loadPromo(){
     
     $.ajax({
@@ -209,7 +229,7 @@ function loadPromo(){
                 var payment_inst = response_parsed[promo].payment_instalments;
                 var other_promo = response_parsed[promo].other_promo;
                 
-                if (other_promo != ""){
+                if (other_promo != ""){ //name of the promotion
                 	var p = document.createElement("p");
                     p.innerHTML = other_promo + "<br>";
                     p.setAttribute("class","center");
@@ -217,7 +237,7 @@ function loadPromo(){
                 }
                 
                                 
-                if (payment_inst != ""){
+                if (payment_inst != ""){ //installments payment of the SL, if any
                 	var b = document.createElement("b");
                     b.innerHTML = "Condizioni: ";
                     var p = document.createElement("p");
@@ -226,7 +246,7 @@ function loadPromo(){
                     div.appendChild(p);
                 }
             
-                if (new_price != ""){
+                if (new_price != ""){ //new price, if any
                 	var b = document.createElement("b");
                     b.innerHTML = "Prezzo: ";
                     var p = document.createElement("p");
@@ -253,9 +273,14 @@ function loadPromo(){
 }
 
 
-
-
-//Update part of the page in order to display the next or previous product in the group
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file in order to update 
+* part of the page and display the next or previous product in this group.
+* The PHP file is chosen dynamically based on what the user has clicked on ("previous"
+* product or "next" product).
+* The Ajax Call sends to the php file the name of the current smart life, its 
+* category. Expects as response the "Descrizione" information of this device.
+*/
 function move_in_group(event){
     
     $.ajax({
@@ -319,7 +344,15 @@ function move_in_group(event){
 	return false; 
 }
 
-//select the red (deactivated) or blue (activated) aspect of the group links
+/**
+* Auxialiary function that performs an ajax call in order to check if there is or not another smart life
+* next or before this device (the correct smart life group is inferred by the php file).
+* The Ajax Call sends to the php file the name of the current smart life, its 
+* category and the (optional) information about the assistance or smart life associated to this 
+* smart life. Expects as a response a JSON array whose lenght represents the 
+* number of smart life next or before this one. Based on the response, makes
+* the previous/successive links red or blue.
+*/
 function disable_activate_group_links(direction){
     
     $.ajax({ //check if there is a next/previous product
@@ -364,7 +397,12 @@ function disable_activate_group_links(direction){
     
 }
 
-//adds "Promozione" on the lateral bar only if there is at least one associated to the device 
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file in order to add, if present,
+* the lateral bar "Promozioni" of the new smart life that is being loaded.
+* Expects as a response a JSON array whose lenght represents the abstence (0) or presence (>0)
+* of the bar.
+*/
 function check_promotion(){
     
      $.ajax({
@@ -407,7 +445,10 @@ function check_promotion(){
     
 }
 
-
+/**
+* Performs an AJAX call to a php file in order to get the URL of the image associated to
+* the current smart life.
+*/
 function loadImage(){
     
      $.ajax({
@@ -432,7 +473,12 @@ function loadImage(){
 	return false; 
 }
 
-
+/*
+* Performs an ajax call in order to check if there is or not a "forDevice_1" relation 
+* from this smart life to some devices. Updates the lateral button accordingly.
+* Expects as a response a JSON array whose lenght represents the abstence (0) or presence (>0)
+* of the bar.
+*/
 function updateForDevice1(){
     
         $.ajax({

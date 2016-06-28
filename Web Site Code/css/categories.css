@@ -214,7 +214,10 @@ left:0%;
     text-align: center;
 	margin:auto;
     
-    
+}
+
+.img_panel{
+    padding: 2%;
 }
 
 .panel-primary{

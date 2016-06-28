@@ -14,7 +14,12 @@ function documentReady(){
 
 }
 
-//loads the "Testimonials" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Testimonials" 
+* section of the page. The Ajax Call sends to the php file the name of the required sub-single topic
+* (that is "Testimonials"); expects as a response a JSON object cointaining the single topic's
+* "Testimonials".
+*/
 function loadTestimonials(){
   
     $.ajax({
@@ -52,7 +57,12 @@ function loadTestimonials(){
 	return false; 
 }
 
-//loads the "innovazione" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "innovazione" 
+* section of the page. The Ajax Call sends to the php file the name of the required sub-single topic
+* (that is "innovazione"); expects as a response a JSON object cointaining the single topic's
+* "innovazione".
+*/
 function loadInnovations(){
   
     $.ajax({
@@ -91,7 +101,12 @@ function loadInnovations(){
 }
 
 
-//loads the "progetti" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "progetti" 
+* section of the page. The Ajax Call sends to the php file the name of the required sub-single topic
+* (that is "progetti"); expects as a response a JSON object cointaining the single topic's
+* "progetti".
+*/
 function loadProjects(){
   
     $.ajax({

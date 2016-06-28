@@ -1,8 +1,8 @@
 $(document).ready(documentReady);
 
-var assistance_name = null;
+var assistance_name = null; //name of the current assistance
 
-var category = null;
+var category = null; //stores the category of assistance from which the page was loaded, or the relation info
 
 var device_info = ""; //used only if the user come in this page from a Device association
 
@@ -26,7 +26,7 @@ function documentReady(){
     
     $("#previous_in_group").on("click", {direction: "Previous"}, move_in_group);
     
-    //Some modification to improve the aesthetic:
+    //Some events to improve the aesthetic:
     $("#previous_in_group").mouseenter(function (e) {
        $("#previous_in_group").css("text-decoration","underline"); 
     });
@@ -45,7 +45,12 @@ function documentReady(){
 
 }
 
-//loads the "Caratteristiche" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Caratteristiche" 
+* section of the page. The Ajax Call sends to the php file the name of the current assistance 
+* service loaded in the page; expects as a response a JSON object containing the assistance's 
+* "Caratteristiche".
+*/
 function loadCharacteristics(){
   
     $.ajax({
@@ -67,7 +72,6 @@ function loadCharacteristics(){
             //Update with new content
             $("#main_content").append("<br><p>" + response_parsed[0].description + "</p>");
             
-            
         },
         error: function(request,error) 
         {
@@ -79,7 +83,12 @@ function loadCharacteristics(){
 	return false; //to avoid the scrolling down of the page
 }
 
-//loads the "FAQs" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "FAQs" 
+* section of the page. The Ajax Call sends to the php file the name of the current assistance 
+* service loaded in the page; expects as a response a JSON object contening the assistance's 
+* "FAQs".
+*/
 function loadFAQs(){
   
     $.ajax({
@@ -98,8 +107,7 @@ function loadFAQs(){
             //remove and clear useless tags:
             $("#main_content").empty();
             
-            //Update with new content
-            
+            //Update with new content:
             var table = document.createElement("table");
             table.setAttribute("class", "table table-condensed");
             var tbody = document.createElement("tbody");
@@ -134,7 +142,15 @@ function loadFAQs(){
 }
 
 
-//Update part of the page in order to display the next or previous product in the group
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file in order to update 
+* part of the page and display the next or previous product in this group.
+* The PHP file is chosen dynamically based on what the user has clicked on ("previous"
+* product or "next" product).
+* The Ajax Call sends to the php file the name of the current assistance, its 
+* category and the (optional) information about the device associated to this 
+* assistance. Expects as response the "Caratteristiche" information of this assistance.
+*/
 function move_in_group(event){
     
     $.ajax({
@@ -143,8 +159,6 @@ function move_in_group(event){
         data: {name:assistance_name, category:category, device_info:device_info},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response));  // debugging
             var response_parsed = JSON.parse(response);
             
             lenght = 0;
@@ -192,7 +206,15 @@ function move_in_group(event){
 	return false; 
 }
 
-//select the red (deactivated) or blue (activated) aspect of the group links
+/**
+* Auxialiary function that performs an ajax call in order to check if there is or not another assistance
+* next or before this assistance (the correct assistance group is inferred by the php file).
+* The Ajax Call sends to the php file the name of the current assistance, its 
+* category and the (optional) information about the device associated to this 
+* assistance. Expects as a response a JSON array whose lenght represents the 
+* number of assistances next or before this one. Based on the response, makes
+* the previous/successive links red or blue.
+*/
 function disable_activate_group_links(direction){
     
     $.ajax({ //check if there is a next/previous product
@@ -201,8 +223,6 @@ function disable_activate_group_links(direction){
         data: {name:assistance_name, category:category, device_info:device_info},
         success: function(response) {
 			
-        	console.log("Ajax call: success!");  
-            console.log(JSON.parse(response)); 
             var response_parsed = JSON.parse(response);
             
             var array_lenght = 0;
@@ -237,7 +257,12 @@ function disable_activate_group_links(direction){
     
 }
 
-//adds "FAQs" on the lateral bar only if there is at least one associated to the assistance 
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file in order to add, if present,
+* the lateral bar "FAQs" of the new assistance that is being loaded.
+* Expects as a response a JSON array whose lenght represents the abstence (0) or presence (>0)
+* of the bar.
+*/
 function check_FAQs(){
     
      $.ajax({
@@ -280,7 +305,12 @@ function check_FAQs(){
     
 }
 
-
+/**
+* Performs an ajax call in order to check if there is or not a "forDevice_2" relation 
+* from this assistance to some devices. Updates the lateral button accordingly.
+* Expects as a response a JSON array whose lenght represents the abstence (0) or presence (>0)
+* of the bar.
+*/
 function updateForDevice2(){
     
         $.ajax({
@@ -302,6 +332,7 @@ function updateForDevice2(){
             $("#forDevice2_list").remove();
             $("#forDevice2_title").remove(); 
             
+            //Adds the devices button in the lateral bar:
             if (array_lenght > 0){
                 
                 //Add the title and the the ul list tag
@@ -312,14 +343,15 @@ function updateForDevice2(){
                 //add the for_device2 button in the lateral bar:
                 var li = document.createElement("li");
                 var a = document.createElement("a");
-                li.setAttribute("class","forDevice2");//MAY BE REMOVED
+                li.setAttribute("class","forDevice2");
                 var flag="";
                 if(category == "device_relation"){
                     flag="&default=true";
                 }
                 var forDevice2_link = "http://timhypermediaproject2016.altervista.org/php/For_Device2.php?assX=" + 
                                     encodeURI(assistance_name) + "&catX=" + encodeURI(category) + 
-                                    "&orientation=" + orientation + flag;
+                                    "&orientation=" + orientation + flag; //link of the device with php variables
+                                    //used for orientation and relation info
                 a.setAttribute("href", forDevice2_link);
                 a.innerHTML = "Prodotti";
                 li.appendChild(a);

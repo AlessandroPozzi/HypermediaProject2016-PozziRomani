@@ -6,13 +6,18 @@ function documentReady(){
 	
     $("#section1").on("click",loadDescription);
     
-    $("#section2").on("click",loadForInvestors);
+    $("#section2").on("click",loadGovernance);
     
     console.log("I'm ready");
 
 }
 
-//loads the "Descrizione" section
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Descrizione" 
+* section of the page. The Ajax Call sends to the php file the name of the required sub-single topic
+* (that is "Descrizione"); expects as a response a JSON object cointaining the single topic's
+* "Descrizione".
+*/
 function loadDescription(){
   
     $.ajax({
@@ -50,8 +55,13 @@ function loadDescription(){
 	return false; 
 }
 
-//loads the "Per gli investitori" section
-function loadForInvestors(){
+/*
+* Performs an asynchronous HTTP (Ajax) request to a php file to load the "Governance" 
+* section of the page. The Ajax Call sends to the php file the name of the required sub-single topic
+* (that is "Governance"); expects as a response a JSON object cointaining the single topic's
+* "Governance".
+*/
+function loadGovernance(){
   
     $.ajax({
         method: "POST",
