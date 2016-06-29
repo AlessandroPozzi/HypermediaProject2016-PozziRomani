@@ -1,6 +1,6 @@
 <?php
 
-getGovernaceContent($_POST["name"]);
+getGovernanceContent($_POST["name"]);
 /**
 *    Loads one of the structural pages of the governance topic
 *    Called via ajax to change asynchronously the page on client side
