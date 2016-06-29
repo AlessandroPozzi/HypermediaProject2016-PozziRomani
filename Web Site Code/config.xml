@@ -4,6 +4,10 @@
         id = "org.altervista.timhypermediaproject2016"
         versionCode = "1"
         version = "0.1.1" >
+    
+    <name>HypermediaProject2016_Pozzi-Romani</name>
+    <description>App built with PhoneGap for the 2016 Hypermedia Project.</description>
+    <author>Alessandro Pozzi, Marco Romani</author>
 
    <plugin name="com.indigoway.cordova.whitelist.whitelistplugin" spec="1.1.1" source="pgb" />
 
