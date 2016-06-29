@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Smart Life</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/multiple_topic.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="../javascript/jquery.js" type="text/javascript"></script>
+    <script src="../javascript/smart_life_script.js" type="text/javascript"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <style>
+ 
+    .row.content {height: auto}
+    
+   
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+
+    footer {
+    position: fixed; bottom: 0px; 
+    width:100%;
+      background-color: #CCCCFF;
+      color: white;
+      padding: 15px;
+    }
+    
+   
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;} 
+    }
+  </style>
+</head>
+<body>
+    
+   <!-- LOGO and Slogan -->
+	   <div class="logo">
+	      <div class="logopanel">
+		     <div class="tim">
+             <a href="../index.html">
+                <img src="../img/TIM_logo3.png"/>
+              </a>
+             </div>
+			 <div class="slogan"> Il futuro firmato Telecom Italia</div>
+		  </div>
+	   </div>
+        
+        <!-- Top Landmark -->
+
+    <nav class="navbar navbar-default" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>    
+  </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        
+         <li >
+            <a  href="http://timhypermediaproject2016.altervista.org/php/getCategories2.php?high_cat=DISPOSITIVI" id="dispositivi" >
+               <img src="../img/device2.png"/>
+               <p>DISPOSITIVI</p>
+            </a>
+        </li>
+        <li >
+            <a  href="http://timhypermediaproject2016.altervista.org/php/getCategories2.php?high_cat=SMART LIFE" id="smart_life" >
+               <img src="../img/SL.png"/>
+               <p>SMART LIFE</p>
+            </a>
+        </li>
+        <li >
+            <a  href="http://timhypermediaproject2016.altervista.org/php/getAssistanceCategories.php" id="assistenza" >
+               <img src="../img/assistenza.png"/>
+               <p>ASSISTENZA</p>
+            </a>
+        </li>
+        <li >
+            <a  href="http://timhypermediaproject2016.altervista.org/php/getPromotions.php" id="promozioni" >
+               <img src="../img/outlet.png"/>
+               <p>PROMOZIONI</p>
+            </a>
+        </li>
+        <li >
+            <a  href="#" id="news" >
+               <img src="../img/news%20small%20landmark.png"/>
+               <p>NEWS</p>
+            </a>
+        </li>
+
+    </ul>
+  </div>
+</nav>
+    
+<!-- Left section -->    
+    
+<div class="container-fluid" id="second">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+        
+      <h4>Scheda servizio:</h4>
+      <ul class="nav nav-pills nav-stacked" id="sl_box">
+        <li id="sect1" class="active"><a href="" id="section1">Descrizione</a></li>
+        <li id="sect2"><a href="" id="section2">Caratteristiche</a></li>
+        <li id="sect3"><a href="" id="section3">Come si attiva</a></li>
+		<li id="sect4"><a href="" id="section4">Promozione</a></li>
+      </ul>
+        
+        <br>
+        
+        <div id="forDevice1_box">
+          <h4 id="forDevice1_title">Dai un'occhiata ai Prodotti associati:</h4>
+          <ul class="nav nav-pills nav-stacked" id="forDevice1_list">
+            <li class="forDevice1"><a href="#section1">Prodotti</a></li>
+          </ul>
+        </div>  
+     
+        <br class="spacing">
+	  
+    </div>
+
+<!--Content section -->      
+      
+    <div class="col-sm-9">
+        <h4 class="nav nav-inline"><small class="nav-link" id="orientation">ORIENTATION INFO</small></h4>
+      <hr>
+      <h2  id="sl_name"></h2>
+
+      <br>
+	  <div class="row">  
+     
+            <div class="col-sm-6 text_content"> 
+                
+                <div>
+                    <div id="main_content">
+                        <p id="description"></p>
+                       
+                    </div>
+                </div>
+          
+                </div>
+      
+          <div class="col-sm-5">
+            <div class="panel panel-primary" >
+                <img class="img-responsive" id ="img_panel"/>
+                
+            </div>
+                </div>
+       </div>
+      <br>
+      
+
+      <hr>
+	  <div class="container-fluid" id="second">
+      <nav class="nav nav-inline">
+          
+
+         <a class="nav-link active" id="back" href="#">Torna indietro</a>
+ 
+		 		 <span class="glyphicon glyphicon-chevron-right toRight"></span>
+		
+       <a class="nav-link toRight" id="next_in_group" href="">Successivo</a>
+           <a class="nav-link toRight" id="previous_in_group" href="">Precedente</a>
+          <span class="glyphicon glyphicon-chevron-left toRight"></span>
+
+
+      </nav>
+      <br/>
+      <br/>
+      <br/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom bar -->
+    
+<footer class="container-fluid">
+  <span class="glyphicon glyphicon-info-sign"></span>  <a href="../php/getWhoweare.php">CHI SIAMO</a>
+</footer>
+
+</body>
+</html>

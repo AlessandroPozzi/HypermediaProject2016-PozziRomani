@@ -1,0 +1,355 @@
+body{
+    position:relative;
+	background-color:white;
+	margin:0;
+	padding:0;
+
+}
+
+.logo{
+	position:relative;
+	 size:relative;
+	left:0%;
+	right:0%;
+	top:0%;
+	height:15%;
+	background-color:blue;
+	
+}
+
+.logopanel{
+	position:relative;
+	 size:relative;
+	top:6%;
+	width:100%;
+	
+}
+
+.tim{
+	position:relative;
+    size:relative;
+	height:60%;
+    width: 100%;
+    margin-bottom: 0.5%;
+    
+}
+
+.tim img{
+  max-width:320px; 
+  
+  margin:auto;
+  display:block;
+}
+
+.slogan{
+	position:relative;
+    size:relative;
+	height:25%;
+    bottom:25%;
+    font-family: "Verdana", Times, serif;
+    font-size: 15px;
+    text-align:center;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0.5%;
+}
+
+.landmark{
+	position:relative;
+	 size:relative;
+	height:10%;
+	width:19.80%;
+	border-color:blue;
+	background-color:#CCCCFF;
+	border-width:1px;
+	border-style:solid;
+	display: inline-block;
+	text-align:center;
+	
+}
+
+/* Customize bootstrap's navbar */
+
+.navbar .navbar-nav {
+  display: inline-block;
+}
+
+.container-fluid{
+    background-color: #CCCCFF;
+}
+.container-fluid #second{
+    background-color: white;
+    margin-bottom: 1%;
+}
+.row {
+    background-color: white;
+}
+.nav nav-justified > li{
+    text-align: center;
+}
+
+.nav > li img{
+    position: relative;
+    size:relative;    
+    margin-bottom: 1.5px; /*remove this if we want to move the text to the side of the images*/
+}
+
+.nav > li p{
+    
+}
+
+.navbar-collapse{
+    
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav {
+    width: 100%;
+    text-align: center;
+  }
+  .navbar-nav > li {
+    float: none;
+    display: inline-block;
+  }
+  .navbar-nav > li.navbar-right {
+    float: right !important;
+  }
+}
+
+.nav-justified{
+    
+}
+
+
+
+/* End of boostrap customization */
+
+.bottommark{
+	position:relative;
+	 size:relative;
+	bottom:0%;
+	top:0%;
+	border-color:blue;
+	background-color:#CCCCFF;
+	border-width:1px;
+	border-style:solid;
+	height:5%;
+	width:100%;
+}
+
+.info{
+	position:relative;
+	width:5%;
+	height:100%;
+	background-image:url("img/info.png");
+	background-size:70% 75%;
+	background-position:center;
+	background-repeat:no-repeat;
+	display:inline-block;
+}
+.whoweare{
+	position:relative;
+	width: 88%;
+	height:100%;
+    top:-40%;
+	display:inline-block;
+	text-decoration: underline;
+	margin-bottom: -2%;
+}
+.bottomlogo{
+	position:relative;
+	width:5%;
+	margin-right:0%;
+	height:100%;
+	background-image:url("img/red logo.png");
+	background-size:75% 85%;
+	background-repeat:no-repeat;
+	background-position:center;
+	display:inline-block;
+	
+}
+.leftbox{
+	position:relative;
+	
+	height:60%;
+	left:5%;
+	
+	width:20%;
+	border-color:blue;
+	background-color:#CCCCFF;
+	border-width:2px;
+	border-style:solid;
+	display:inline-block;
+    
+
+}
+
+.structbox{
+	position:relative;
+	text-decoration: underline;
+	height:25%;
+	left:10%;
+	top:10%;
+	width:80%;
+	border-color:blue;
+	background-color:#0080FF;
+	border-width:2px;
+	border-style:solid;
+	text-align:center;
+	
+}
+.relationbox{
+	position:relative;
+	
+	height:35%;
+	left:10%;
+	top:15%;
+	width:80%;
+	
+	text-align:center;
+}
+.contentbox{
+	position:relative;
+	
+	height:60%;
+	left:30%;
+	top:-50%;
+	
+	width:60%;
+	border-color:blue;
+	background-color:white;
+	border-width:2px;
+	border-style:solid;
+	margin-bottom: -20%;
+	
+	
+}
+
+.orientationbox{
+	position:relative;
+	height: 7%;
+	width: 50%;
+	left:35%;
+	top:5%;
+	border-color:blue;
+
+	border-width:2px;
+	border-style:solid;
+	text-align:center;
+	
+}
+
+.toRight{
+position: relative;
+left: 1%;
+padding: 1%;
+    right:0%;
+float: right 
+}
+
+.nav-inline{
+    
+}
+
+.col-sm-9{
+	background-color:white;
+}
+
+.panel{
+    border-color: #e3e3e3;
+    border-width: 3px;
+    background-color: white;
+    border-radius: 4px;
+    
+}
+
+.panel-primary{
+    
+}
+
+.col-sm-9{
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.img-responsive{
+    padding: 9%;
+}
+
+.testimonial{
+    text-align: center;
+}
+
+.imgtest{
+    padding: 2%;
+}
+
+.well{
+    size: relative;
+    position: relative;
+    
+}
+
+.glyphicon{
+    background-size: 5%;
+}
+
+.glyphicon-chevron-left{
+    background-size: 15%;
+}
+
+.toLeft{
+    size:relative;
+left:0%;
+    padding: 1%;
+        font-size: 24px;
+    
+}
+
+.next_img_right{
+    position: relative;
+left: 1%;
+padding: 1%;
+    right:0%;
+float: right 
+}
+
+.next_img_left{
+        size:relative;
+left:0%;
+    padding: 1%;
+        
+}
+
+.arrow_img{
+    font-size: 150%;
+}
+
+.arrows{
+    width: 50%;
+}
+
+.row{
+    
+}
+
+.text_content{
+    margin-left: 3%;
+    word-wrap: break-word
+}
+
+#img_panel{
+    text-align: center;
+    margin:auto;
+    padding:0%;
+}
+
+#promo_box{
+    border: groove  ;
+    padding: 2%;
+}
+
+.center{
+    text-align: center;
+}
