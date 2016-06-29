@@ -4,6 +4,8 @@ var sl_name = null; //the name of this smart life product
 
 var category = null; //stores the category of smart life from which the page was loaded, or the relation info
 
+var sl_directory = "SmartLifeMultiTopic/"; //directory that contains the php files used by this page
+
 function documentReady(){
     
     //Update the global variables:
@@ -56,7 +58,7 @@ function loadDescription(){
   
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getSLDescription.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "getSLDescription.php",
         data: {name:sl_name},
         success: function(response) {
 			
@@ -98,7 +100,7 @@ function loadCharacteristics(){
   
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getSLCharacteristics.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "getSLCharacteristics.php",
         data: {name:sl_name},
         success: function(response) {
 			
@@ -159,7 +161,7 @@ function loadHowTo(){
   
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getSLHowTo.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "getSLHowTo.php",
         data: {name:sl_name},
         success: function(response) {
 			
@@ -201,7 +203,7 @@ function loadPromo(){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getSLPromo.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "getSLPromo.php",
         data: {name:sl_name},
         success: function(response) {
 			
@@ -285,7 +287,7 @@ function move_in_group(event){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/get" + event.data.direction + "SLInGroup.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "get" + event.data.direction + "SLInGroup.php",
         data: {name:sl_name, category:category},
         success: function(response) {
 			
@@ -357,7 +359,7 @@ function disable_activate_group_links(direction){
     
     $.ajax({ //check if there is a next/previous product
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/get" + direction + "SLInGroup.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "get" + direction + "SLInGroup.php",
         data: {name:sl_name, category:category},
         success: function(response) {
 			
@@ -407,7 +409,7 @@ function check_promotion(){
     
      $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getSLPromo.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "getSLPromo.php",
         data: {name:sl_name},
         success: function(response) {
 			
@@ -453,7 +455,7 @@ function loadImage(){
     
      $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getSLImage.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "getSLImage.php",
         data: {name:sl_name},
         success: function(response) {
 			
@@ -483,7 +485,7 @@ function updateForDevice1(){
     
         $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getForDevice1.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + sl_directory + "getForDevice1.php",
         data: {name:sl_name},
         success: function(response) {
 			

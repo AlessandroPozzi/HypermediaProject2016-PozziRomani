@@ -14,6 +14,8 @@ var sl_info = ""; //used only if the user come in this page from a Smart Life as
 
 var assistance_info = ""; //used only if the user come in this page from an assistance association
 
+var device_directory = "DeviceMultiTopic/"; //directory that contains the php files used by this page
+
 function documentReady(){
     
     //Update the global variables:
@@ -87,7 +89,7 @@ function loadCharacteristics(){
     $.ajax({
         method: "POST",
         //datatype = json is not necessary, the parsing is done later
-        url: "http://timhypermediaproject2016.altervista.org/php/getDeviceCharacteristics.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "getDeviceCharacteristics.php",
         data: {name:device_name},
         success: function(response) {
 			
@@ -136,7 +138,7 @@ function loadSpecification(){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getDeviceSpecification.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "getDeviceSpecification.php",
         data: {name:device_name},
         success: function(response) {
 			
@@ -194,7 +196,7 @@ function loadPromo(){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getDevicePromo.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "getDevicePromo.php",
         data: {name:device_name},
         success: function(response) {
 			
@@ -270,7 +272,7 @@ function preloadImage(){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getDeviceImages.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "getDeviceImages.php",
         data: {name:device_name},
         success: function(response) {
 			
@@ -366,7 +368,7 @@ function move_in_group(event){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/get" + event.data.direction + "DeviceInGroup.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "get" + event.data.direction + "DeviceInGroup.php",
         data: {name:device_name, category:category, sl_info:sl_info, assistance_info:assistance_info},
         success: function(response) {
 			
@@ -448,7 +450,7 @@ function disable_activate_group_links(direction){
     
     $.ajax({ //check if there is a next/previous product
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/get" + direction + "DeviceInGroup.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "get" + direction + "DeviceInGroup.php",
         data: {name:device_name, category:category, sl_info:sl_info, assistance_info:assistance_info},
         success: function(response) {
 			
@@ -496,7 +498,7 @@ function check_promotion(){
     
      $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getDevicePromo.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "getDevicePromo.php",
         data: {name:device_name},
         success: function(response) {
 			
@@ -542,7 +544,7 @@ function updateAvailableSL(){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getAvailableSL.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "getAvailableSL.php",
         data: {name:device_name},
         success: function(response) {
 			
@@ -612,7 +614,7 @@ function updateAssistanceFor(){
     
         $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getAssistanceFor.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + device_directory + "getAssistanceFor.php",
         data: {name:device_name},
         success: function(response) {
 			

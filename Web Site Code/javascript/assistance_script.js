@@ -6,6 +6,8 @@ var category = null; //stores the category of assistance from which the page was
 
 var device_info = ""; //used only if the user come in this page from a Device association
 
+var assistance_directory = "AssistanceMultiTopic/"; //the directory containing the php files used by this script
+
 function documentReady(){
     
     //Update the global variables:
@@ -56,7 +58,7 @@ function loadCharacteristics(){
     $.ajax({
         method: "POST",
         //datatype = json is not necessary, the parsing is done later
-        url: "http://timhypermediaproject2016.altervista.org/php/getAssistanceCharacteristics.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + assistance_directory + "getAssistanceCharacteristics.php",
         data: {name:assistance_name},
         success: function(response) {
 			
@@ -94,7 +96,7 @@ function loadFAQs(){
     $.ajax({
         method: "POST",
         //datatype = json is not necessary, the parsing is done later
-        url: "http://timhypermediaproject2016.altervista.org/php/getAssistanceFAQs.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + assistance_directory + "getAssistanceFAQs.php",
         data: {name:assistance_name},
         success: function(response) {
 			
@@ -155,7 +157,7 @@ function move_in_group(event){
     
     $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/get" + event.data.direction + "AssistanceInGroup.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + assistance_directory + "get" + event.data.direction + "AssistanceInGroup.php",
         data: {name:assistance_name, category:category, device_info:device_info},
         success: function(response) {
 			
@@ -219,7 +221,7 @@ function disable_activate_group_links(direction){
     
     $.ajax({ //check if there is a next/previous product
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/get" + direction + "AssistanceInGroup.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + assistance_directory + "get" + direction + "AssistanceInGroup.php",
         data: {name:assistance_name, category:category, device_info:device_info},
         success: function(response) {
 			
@@ -267,7 +269,7 @@ function check_FAQs(){
     
      $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getAssistanceFAQs.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + assistance_directory + "getAssistanceFAQs.php",
         data: {name:assistance_name},
         success: function(response) {
 			
@@ -315,7 +317,7 @@ function updateForDevice2(){
     
         $.ajax({
         method: "POST",
-        url: "http://timhypermediaproject2016.altervista.org/php/getForDevice2.php",
+        url: "http://timhypermediaproject2016.altervista.org/php/" + assistance_directory + "getForDevice2.php",
         data: {name:assistance_name},
         success: function(response) {
 			
